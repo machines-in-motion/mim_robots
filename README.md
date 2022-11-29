@@ -1,7 +1,7 @@
 ## mim_robots
 
-This repository contains robot descriptions that are used in the machines in motion lab. It also contains APIs that can use the robot descriptions
-directly to create mujoco simulations. 
+This repository contains robot descriptions that are used in the machines in motion lab. It also contains APIs that can use the robot descriptions directly to create mujoco simulations. This code base will also contain dynamic_graph_head related API's in the future to enable 
+easy sim2real robot transfer of code. 
 
 ## Dependencies
 1. robot_descriptions - ```pip install robot_descriptions```
