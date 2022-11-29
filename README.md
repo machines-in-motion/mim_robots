@@ -23,3 +23,5 @@ These are specific case envs that are created based on previous project use case
 Each robot env should only contain information regarding the robots to be loaded, and other objects that might be interacted with by the robot. 
 
 
+## Possible Errors :
+1. When trying to load a new robot if you see this error - ``` git.exc.InvalidGitRepositoryError ``` then run ``` rm -rf ~/.cache/robot_descriptions/jaxon_description``` and try again. This is an error that comes from robot_description. Link to issue - https://github.com/robot-descriptions/robot_descriptions.py
