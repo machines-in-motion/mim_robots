@@ -11,8 +11,15 @@
     <mesh name="iiwa_link_5" file="kuka/iiwa_link_5.stl"/>
     <mesh name="iiwa_link_6" file="kuka/iiwa_link_6.stl"/>
     <mesh name="iiwa_link_7" file="kuka/iiwa_link_7.stl"/>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512"
+        height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4"
+        rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"
+        reflectance="0.2"/>
   </asset>
-  <worldbody>
+  <worldbody >
+    <geom size="10 10 .05" type="plane" material="groundplane" condim="3"/>
     <geom type="mesh" rgba="0.4 0.4 0.4 1" mesh="iiwa_base"/>
     <body name="L1" pos="0 0 0.1575">
       <inertial pos="0 0 0" quat="0.999999 -0.00117646 0 0" mass="3.94781" diaginertia="0.00455 0.00454002 0.000289976"/>
@@ -49,6 +56,8 @@
         </body>
       </body>
     </body>
+  <light directional="true"></light> 
+
   </worldbody>
 
    <actuator>
@@ -60,5 +69,7 @@
       <motor name="A6"       gear="1"  joint="A6"/>
       <motor name="A7"       gear="1"  joint="A7"/>
     </actuator>
+  
+   
 
 </mujoco>

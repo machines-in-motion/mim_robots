@@ -107,4 +107,7 @@
         <motor name="robotiq_2f_85_left_follower_joint"       gear="1"  joint="robotiq_2f_85_left_follower_joint"/>
         <motor name="robotiq_2f_85_left_spring_link_joint"       gear="1"  joint="robotiq_2f_85_left_spring_link_joint"/>
     </actuator>
+  <light directiona1="true" diffuse=".5 .5 .5" specular=".5 .5 .5">
+    <direction>1 1 1</direction>
+  </light>
 </mujoco>

@@ -43,12 +43,12 @@ class MujocoWorld(MujocoRender, PrimitiveBox):
         self.object_joint_indices = {}
         self.object_actuator_indices = {}
         self.index = [0,0]
-        if with_ground:
-            chequered = self.mj_model.asset.add('texture', type='2d', builtin='checker', width=300,
+       
+        chequered = self.mj_model.asset.add('texture', type='2d', builtin='checker', width=300,
                             height=300, rgb1=[.2, .3, .4], rgb2=[.3, .4, .5])
-            grid = self.mj_model.asset.add('material', name='grid', texture=chequered,
-                            texrepeat=[5, 5], reflectance=.2)
-            self.mj_model.worldbody.add('geom', type='plane', size=[2, 2, .1], material = grid,  friction="0.3")
+        grid = self.mj_model.asset.add('material', name='grid', texture=chequered,
+                        texrepeat=[5, 5], reflectance=.2)
+        self.mj_model.worldbody.add('geom', type='plane', size=[2, 2, .1], material = grid,  friction="0.3")
 
         PrimitiveBox.__init__(self)
         
@@ -101,8 +101,6 @@ class MujocoWorld(MujocoRender, PrimitiveBox):
         self.initialize_renderer = initialize_renderer
         if initialize_renderer:
             self.init_renderer()
-
-
     
     def init_renderer(self, frame_rate = 24, use_touchpad = True, 
                             width=768, height=576, title="Mujoco Simulator"):

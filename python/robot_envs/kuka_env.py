@@ -2,13 +2,13 @@
 ## Author : Avadesh Meduri
 ## Date : 24/10/2022
 
-from envs.mujoco_env import MujocoWorld
-from envs.expert_demonstration import ExpertDemonstration
+from mujoco_env import MujocoWorld
 import pathlib
 import numpy as np
+from robot_loader import MiMRobotLoader
 
 
-class KukaEnv(ExpertDemonstration, MujocoWorld):
+class KukaEnv(MujocoWorld):
 
     def __init__(self, with_gripper = True):
 
@@ -16,17 +16,14 @@ class KukaEnv(ExpertDemonstration, MujocoWorld):
         for x in [-2, 2]:
             self.add_light(pos=[x, -1, 3], dir=[-x, 1, -2])
 
-        python_path = pathlib.Path('.').absolute().parent.parent
+        # python_path = pathlib.Path('.').absolute().parent
         if with_gripper:
-            xml_path = str(python_path) + '/robots/kuka/kuka_gripper.xml'        
-            self.nb_joints = 13
-            self.nb_actuators = 13
+            model, xml_path = MiMRobotLoader("iiwa_gripper")     
         else:
-            xml_path = str(python_path) + '/robots/kuka/kuka.xml'        
-            self.nb_joints = 7
-            self.nb_actuators = 7
-
-        self.kuka = self.add_body(xml_path, position = [0,0,0], nb_joints = self.nb_joints, nb_actuators= self.nb_actuators)
+            model, xml_path = MiMRobotLoader("iiwa")     
+        
+        self.probot=model 
+        self.kuka = self.add_body(xml_path, position = [0,0,0])
 
     def init_physics(self, initialize_renderer = False):
         self.create_physics(initialize_renderer=initialize_renderer)

@@ -1,134 +1,393 @@
-"""
-License: BSD 3-Clause License
-Copyright (C) 2022, New York University
-Copyright note valid unless otherwise stated in individual files.
-All rights reserved.
-"""
-
-import time
-
-import numpy as np
-
+import mujoco
 import glfw
-
-from dm_control.mujoco.wrapper.mjbindings import enums
-
-from dm_control import _render
-from dm_control import mujoco
-from dm_control.viewer import gui
-from dm_control.viewer import renderer
-from dm_control.viewer import viewer
-from dm_control.viewer import views
-
-_MAX_FRONTBUFFER_SIZE = 2048
-_MAX_FRONTBUFFER_SIZE = 2048
+import numpy as np
+import time
+import pathlib
+import yaml
+from callbacks import Callbacks
 
 
-class MujocoRender:
+class MujocoViewer(Callbacks):
+    def __init__(
+            self,
+            model,
+            data,
+            mode='window',
+            title="mujoco-python-viewer",
+            width=None,
+            height=None,
+            hide_menus=False):
+        super().__init__(hide_menus)
 
-    def __init__(self, frame_rate=24, use_touchpad=True, width=768, height=576, title="Mujoco Simulator"):
+        self.model = model
+        self.data = data
+        self.render_mode = mode
+        if self.render_mode not in ['offscreen', 'window']:
+            raise NotImplementedError(
+                "Invalid mode. Only 'offscreen' and 'window' are supported.")
 
-        self.viewport = renderer.Viewport(width, height)
-        self.window = gui.RenderWindow(width, height, title)
+        # keep true while running
+        self.is_alive = True
 
-        self.context = self.window._context
+        self.CONFIG_PATH = pathlib.Path.joinpath(
+            pathlib.Path.home(), ".config/mujoco_viewer/config.yaml")
 
-        self.viewer_layout = views.ViewportLayout()
-        self.viewer = viewer.Viewer(
-            self.viewport, self.window.mouse, self.window.keyboard)
+        # glfw init
+        glfw.init()
 
-        self.render_surface = _render.Renderer(
-            max_width=_MAX_FRONTBUFFER_SIZE, max_height=_MAX_FRONTBUFFER_SIZE)
-        self.renderer = renderer.OffScreenRenderer(
-            self.physics.model, self.render_surface)
-        self.renderer.components += self.viewer_layout
-        self.viewer.initialize(self.physics, self.renderer, touchpad=use_touchpad)
+        if not width:
+            width, _ = glfw.get_video_mode(glfw.get_primary_monitor()).size
 
-        self.last_render = 0.
-        self.render_interval = 1 / frame_rate # Rendering at 24 fps.
+        if not height:
+            _, height = glfw.get_video_mode(glfw.get_primary_monitor()).size
 
-        self.draw_counter = 0
-        self.step_counter = 0
-        self.sleep_step = 0
-        self.step_time = 0.
-        self.first_time_sleep_duration_warning = True
+        if self.render_mode == 'offscreen':
+            glfw.window_hint(glfw.VISIBLE, 0)
 
-    def viz_physics(self, fastforward=False):
-        if self.step_counter == 0:
-            self.step_time = time.time()
+        self.window = glfw.create_window(
+            width, height, title, None, None)
+        glfw.make_context_current(self.window)
+        glfw.swap_interval(1)
 
-        self.step_counter += 1
+        framebuffer_width, framebuffer_height = glfw.get_framebuffer_size(
+            self.window)
 
-        # Sleep for dt if desired.
-        if fastforward:
-            # Check if doing simple sleep for dt period of time.
-            if isinstance(fastforward, bool):
-                time.sleep(self.dt)
+        # install callbacks only for 'window' mode
+        if self.render_mode == 'window':
+            window_width, _ = glfw.get_window_size(self.window)
+            self._scale = framebuffer_width * 1.0 / window_width
 
-            # Otherwise, perform a more complex sleep. THe sleep factor
-            # indicates how fast compared to realtime the simulation
-            # should run (if conntrol & render speed allow it).
+            # set callbacks
+            glfw.set_cursor_pos_callback(
+                self.window, self._cursor_pos_callback)
+            glfw.set_mouse_button_callback(
+                self.window, self._mouse_button_callback)
+            glfw.set_scroll_callback(self.window, self._scroll_callback)
+            glfw.set_key_callback(self.window, self._key_callback)
+
+        # create options, camera, scene, context
+        self.vopt = mujoco.MjvOption()
+        self.cam = mujoco.MjvCamera()
+        self.scn = mujoco.MjvScene(self.model, maxgeom=10000)
+        self.pert = mujoco.MjvPerturb()
+        self.ctx = mujoco.MjrContext(
+            self.model, mujoco.mjtFontScale.mjFONTSCALE_150.value)
+
+        # load camera from configuration (if available)
+        pathlib.Path(
+            self.CONFIG_PATH.parent).mkdir(
+            parents=True,
+            exist_ok=True)
+        pathlib.Path(self.CONFIG_PATH).touch(exist_ok=True)
+        with open(self.CONFIG_PATH, "r") as f:
+            try:
+                cam_config = {
+                    "type": self.cam.type,
+                    "fixedcamid": self.cam.fixedcamid,
+                    "trackbodyid": self.cam.trackbodyid,
+                    "lookat": self.cam.lookat.tolist(),
+                    "distance": self.cam.distance,
+                    "azimuth": self.cam.azimuth,
+                    "elevation": self.cam.elevation
+                }
+                load_config = yaml.safe_load(f)
+                if isinstance(load_config, dict):
+                    for key, val in load_config.items():
+                        if key in cam_config.keys():
+                            cam_config[key] = val
+                if cam_config["type"] == mujoco.mjtCamera.mjCAMERA_FIXED:
+                    if cam_config["fixedcamid"] < self.model.ncam:
+                        self.cam.type = cam_config["type"]
+                        self.cam.fixedcamid = cam_config["fixedcamid"]
+                if cam_config["type"] == mujoco.mjtCamera.mjCAMERA_TRACKING:
+                    if cam_config["trackbodyid"] < self.model.nbody:
+                        self.cam.type = cam_config["type"]
+                        self.cam.trackbodyid = cam_config["trackbodyid"]
+                self.cam.lookat = np.array(cam_config["lookat"])
+                self.cam.distance = cam_config["distance"]
+                self.cam.azimuth = cam_config["azimuth"]
+                self.cam.elevation = cam_config["elevation"]
+            except yaml.YAMLError as e:
+                print(e)
+
+        # get viewport
+        self.viewport = mujoco.MjrRect(
+            0, 0, framebuffer_width, framebuffer_height)
+
+        # overlay, markers
+        self._overlay = {}
+        self._markers = []
+
+    def add_marker(self, **marker_params):
+        self._markers.append(marker_params)
+
+    def _add_marker_to_scene(self, marker):
+        if self.scn.ngeom >= self.scn.maxgeom:
+            raise RuntimeError(
+                'Ran out of geoms. maxgeom: %d' %
+                self.scn.maxgeom)
+
+        g = self.scn.geoms[self.scn.ngeom]
+        # default values.
+        g.dataid = -1
+        g.objtype = mujoco.mjtObj.mjOBJ_UNKNOWN
+        g.objid = -1
+        g.category = mujoco.mjtCatBit.mjCAT_DECOR
+        g.texid = -1
+        g.texuniform = 0
+        g.texrepeat[0] = 1
+        g.texrepeat[1] = 1
+        g.emission = 0
+        g.specular = 0.5
+        g.shininess = 0.5
+        g.reflectance = 0
+        g.type = mujoco.mjtGeom.mjGEOM_BOX
+        g.size[:] = np.ones(3) * 0.1
+        g.mat[:] = np.eye(3)
+        g.rgba[:] = np.ones(4)
+
+        for key, value in marker.items():
+            if isinstance(value, (int, float, mujoco._enums.mjtGeom)):
+                setattr(g, key, value)
+            elif isinstance(value, (tuple, list, np.ndarray)):
+                attr = getattr(g, key)
+                attr[:] = np.asarray(value).reshape(attr.shape)
+            elif isinstance(value, str):
+                assert key == "label", "Only label is a string in mjtGeom."
+                if value is None:
+                    g.label[0] = 0
+                else:
+                    g.label = value
+            elif hasattr(g, key):
+                raise ValueError(
+                    "mjtGeom has attr {} but type {} is invalid".format(
+                        key, type(value)))
             else:
-                steps_per_render = fastforward * self.render_interval * 1. / self.dt
+                raise ValueError("mjtGeom doesn't have field %s" % key)
 
-                if self.step_counter > steps_per_render + self.sleep_step:
-                    self.sleep_step = self.step_counter
+        self.scn.ngeom += 1
 
-                    now = time.time()
+        return
 
-                    # How long did we spending stepping before a redraw?
-                    step_duration = now - self.step_time
+    def _create_overlay(self):
+        topleft = mujoco.mjtGridPos.mjGRID_TOPLEFT
+        topright = mujoco.mjtGridPos.mjGRID_TOPRIGHT
+        bottomleft = mujoco.mjtGridPos.mjGRID_BOTTOMLEFT
+        bottomright = mujoco.mjtGridPos.mjGRID_BOTTOMRIGHT
 
-                    self.last_render = now
-                    self.redraw()
-                    self.render_time = time.time() - now
+        def add_overlay(gridpos, text1, text2):
+            if gridpos not in self._overlay:
+                self._overlay[gridpos] = ["", ""]
+            self._overlay[gridpos][0] += text1 + "\n"
+            self._overlay[gridpos][1] += text2 + "\n"
 
-                    sleep_duration = self.render_interval - self.render_time - step_duration
-                    time.sleep(max(sleep_duration, 0.))
+        if self._render_every_frame:
+            add_overlay(topleft, "", "")
+        else:
+            add_overlay(
+                topleft,
+                "Run speed = %.3f x real time" %
+                self._run_speed,
+                "[S]lower, [F]aster")
+        add_overlay(
+            topleft,
+            "Ren[d]er every frame",
+            "On" if self._render_every_frame else "Off")
+        add_overlay(
+            topleft, "Switch camera (#cams = %d)" %
+            (self.model.ncam + 1), "[Tab] (camera ID = %d)" %
+            self.cam.fixedcamid)
+        add_overlay(
+            topleft,
+            "[C]ontact forces",
+            "On" if self._contacts else "Off")
+        add_overlay(
+            topleft,
+            "[J]oints",
+            "On" if self._joints else "Off")
+        add_overlay(
+            topleft,
+            "[I]nertia",
+            "On" if self._inertias else "Off")
+        add_overlay(
+            topleft,
+            "Center of [M]ass",
+            "On" if self._com else "Off")
+        add_overlay(
+            topleft, "Shad[O]ws", "On" if self._shadows else "Off"
+        )
+        add_overlay(
+            topleft,
+            "T[r]ansparent",
+            "On" if self._transparent else "Off")
+        add_overlay(
+            topleft,
+            "[W]ireframe",
+            "On" if self._wire_frame else "Off")
+        add_overlay(
+            topleft,
+            "Con[V]ex Hull Rendering",
+            "On" if self._convex_hull_rendering else "Off",
+        )
+        if self._paused is not None:
+            if not self._paused:
+                add_overlay(topleft, "Stop", "[Space]")
+            else:
+                add_overlay(topleft, "Start", "[Space]")
+                add_overlay(
+                    topleft,
+                    "Advance simulation by one step",
+                    "[right arrow]")
+        add_overlay(topleft, "Toggle geomgroup visibility (0-5)",
+                    ",".join(["On" if g else "Off" for g in self.vopt.geomgroup]))
+        add_overlay(
+            topleft,
+            "Referenc[e] frames",
+            mujoco.mjtFrame(self.vopt.frame).name)
+        add_overlay(topleft, "[H]ide Menus", "")
+        if self._image_idx > 0:
+            fname = self._image_path % (self._image_idx - 1)
+            add_overlay(topleft, "Cap[t]ure frame", "Saved as %s" % fname)
+        else:
+            add_overlay(topleft, "Cap[t]ure frame", "")
 
-                    self.step_time = time.time()
+        add_overlay(
+            bottomleft, "FPS", "%d%s" %
+            (1 / self._time_per_render, ""))
+        add_overlay(
+            bottomleft, "Solver iterations", str(
+                self.data.solver_iter + 1))
+        add_overlay(
+            bottomleft, "Step", str(
+                round(
+                    self.data.time / self.model.opt.timestep)))
+        add_overlay(bottomleft, "timestep", "%.5f" % self.model.opt.timestep)
 
-                # Exiting early here as we do the rendering in the above if-block if desired.
-                return
+    def apply_perturbations(self):
+        self.data.xfrc_applied = np.zeros_like(self.data.xfrc_applied)
+        mujoco.mjv_applyPerturbPose(self.model, self.data, self.pert, 0)
+        mujoco.mjv_applyPerturbForce(self.model, self.data, self.pert)
 
-        # If enough time passed, do a rerender.
-        now = time.time()
-        if now - self.last_render > self.render_interval:
-            self.redraw()
-            self.render_time = time.time() - now
-            self.last_render = now
+    def read_pixels(self, camid=None, depth=False):
+        if self.render_mode == 'window':
+            raise NotImplementedError(
+                "Use 'render()' in 'window' mode.")
 
-    def redraw(self):
-        self.draw_counter += 1
+        if camid is not None:
+            if camid == -1:
+                self.cam.type = mujoco.mjtCamera.mjCAMERA_FREE
+            else:
+                self.cam.type = mujoco.mjtCamera.mjCAMERA_FIXED
+            self.cam.fixedcamid = camid
 
-        if glfw.window_should_close(self.context.window):
-            self.window.close()
+        self.viewport.width, self.viewport.height = glfw.get_framebuffer_size(
+            self.window)
+        # update scene
+        mujoco.mjv_updateScene(
+            self.model,
+            self.data,
+            self.vopt,
+            self.pert,
+            self.cam,
+            mujoco.mjtCatBit.mjCAT_ALL.value,
+            self.scn)
+        # render
+        mujoco.mjr_render(self.viewport, self.scn, self.ctx)
+        shape = glfw.get_framebuffer_size(self.window)
+        
+        
+        if depth:
+            rgb_img = np.zeros((shape[1], shape[0], 3), dtype=np.uint8)
+            depth_img = np.zeros((shape[1], shape[0], 1), dtype=np.float32)
+            mujoco.mjr_readPixels(rgb_img, depth_img, self.viewport, self.ctx)
+            return (np.flipud(rgb_img), np.flipud(depth_img))
+        else:
+            img = np.zeros((shape[1], shape[0], 3), dtype=np.uint8)
+            mujoco.mjr_readPixels(img, None, self.viewport, self.ctx)
+            return np.flipud(img)
+
+
+    def render(self):
+        if self.render_mode == 'offscreen':
+            raise NotImplementedError(
+                "Use 'read_pixels()' for 'offscreen' mode.")
+        if not self.is_alive:
+            raise Exception(
+                "GLFW window does not exist but you tried to render.")
+        if glfw.window_should_close(self.window):
+            self.close()
             return
 
-        # Update the viewport and perform the rendering.
-        self.viewport.set_size(*self.window.shape)
-        self.viewer.render()
+        # mjv_updateScene, mjr_render, mjr_overlay
+        def update():
+            # fill overlay items
+            self._create_overlay()
 
-        with self.context.make_current() as ctx:
-            ctx.call(
-                self.window._update_gui_on_render_thread, self.context.window, self.renderer.pixels)
+            render_start = time.time()
+            self.viewport.width, self.viewport.height = glfw.get_framebuffer_size(
+                self.window)
+            with self._gui_lock:
+                # update scene
+                mujoco.mjv_updateScene(
+                    self.model,
+                    self.data,
+                    self.vopt,
+                    self.pert,
+                    self.cam,
+                    mujoco.mjtCatBit.mjCAT_ALL.value,
+                    self.scn)
+                # marker items
+                for marker in self._markers:
+                    self._add_marker_to_scene(marker)
+                # render
+                mujoco.mjr_render(self.viewport, self.scn, self.ctx)
+                # overlay items
+                for gridpos, [t1, t2] in self._overlay.items():
+                    menu_positions = [mujoco.mjtGridPos.mjGRID_TOPLEFT,
+                                      mujoco.mjtGridPos.mjGRID_BOTTOMLEFT]
+                    if gridpos in menu_positions and self._hide_menus:
+                        continue
 
-        self.window.mouse.process_events()
-        self.window.keyboard.process_events()
+                    mujoco.mjr_overlay(
+                        mujoco.mjtFontScale.mjFONTSCALE_150,
+                        gridpos,
+                        self.viewport,
+                        t1,
+                        t2,
+                        self.ctx)
+                glfw.swap_buffers(self.window)
+            glfw.poll_events()
+            self._time_per_render = 0.9 * self._time_per_render + \
+                0.1 * (time.time() - render_start)
 
-    def close_viz(self):
-        self.window.close()
+            # clear overlay
+            self._overlay.clear()
 
-    def zoom_to_scene(self):
-        self.viewer.camera.zoom_to_scene()
-        self.redraw()
+        if self._paused:
+            while self._paused:
+                update()
+                if glfw.window_should_close(self.window):
+                    self.close()
+                    break
+                if self._advance_by_one_step:
+                    self._advance_by_one_step = False
+                    break
+        else:
+            self._loop_count += self.model.opt.timestep / \
+                (self._time_per_render * self._run_speed)
+            if self._render_every_frame:
+                self._loop_count = 1
+            while self._loop_count > 0:
+                update()
+                self._loop_count -= 1
 
-    def set_camera_view(self, distance, pitch, yaw, look_at):
-        camera = self.viewer.camera
+        # clear markers
+        self._markers[:] = []
 
-        camera.settings.distance = distance
-        camera.settings.azimuth = pitch
-        camera.settings.elevation = -yaw
-        camera.settings.look_at = look_at
+        # apply perturbation (should this come before mj_step?)
+        self.apply_perturbations()
 
-        self.redraw()
+    def close(self):
+        self.is_alive = False
+        glfw.terminate()
+        self.ctx.free()
