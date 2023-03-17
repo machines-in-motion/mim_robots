@@ -7,20 +7,20 @@ import pathlib
 import pinocchio as pin
 
 import os
-from robot_descriptions.loaders.mujoco import load_robot_description as mj_loader
-from robot_descriptions.loaders.pinocchio import load_robot_description as pin_loader
-
-from dm_control import mjcf
 from importlib import import_module  # type: ignore
 
 def load_robot(xml_path, urdf_path, mesh_dir):
     if urdf_path:
-        mesh_dir = str(pathlib.Path('.').absolute().parent.parent) + '/'
-        pin_robot = pin.RobotWrapper.BuildFromURDF(
-                                            filename=urdf_path,
-                                            package_dirs=mesh_dir,
-                                            root_joint=None,
-                                            )
+        try:
+            mesh_dir = str(pathlib.Path('.').absolute().parent.parent) + '/'
+            pin_robot = pin.RobotWrapper.BuildFromURDF(
+                                                filename=urdf_path,
+                                                package_dirs=mesh_dir,
+                                                root_joint=None,
+                                                )
+        except:
+            print("Error: something wrong with urdf")
+            pin_robot = None
     else:
         pin_robot = None
         
