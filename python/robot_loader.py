@@ -5,11 +5,16 @@
 
 import pathlib
 import pinocchio as pin
+import mujoco
 
 import os
 from importlib import import_module  # type: ignore
 
 def load_robot(xml_path, urdf_path, mesh_dir):
+    
+    pin_robot = None
+    mjmodel = None
+
     if urdf_path:
         try:
             mesh_dir = str(pathlib.Path('.').absolute().parent.parent) + '/'
@@ -21,10 +26,11 @@ def load_robot(xml_path, urdf_path, mesh_dir):
         except:
             print("Error: something wrong with urdf")
             pin_robot = None
-    else:
-        pin_robot = None
         
-    return pin_robot, xml_path
+    if xml_path:
+        mjmodel = mujoco.MjModel.from_xml_path(xml_path)
+
+    return pin_robot, mjmodel
 
 def MiMRobotLoader(robot_name : str):
     """
