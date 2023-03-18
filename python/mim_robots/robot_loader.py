@@ -8,7 +8,44 @@ import pinocchio as pin
 import mujoco
 
 import os
+import importlib
 from importlib import import_module  # type: ignore
+
+
+# TODO: MOVE THESE TO A YAML FILE
+mim_robots = ["iiwa", "iiwa_gripper", "teststand", "trifinger0", "trifinger1", "trifinger2"]
+
+def find_mim_paths(robot_name: str):
+    with importlib.resources.path(__package__, "robot_loader.py") as p:
+        package_path = p.parent.absolute()
+    resources_path = str(package_path) + '/robots/'
+    mesh_dir = resources_path
+
+    if robot_name == "iiwa":
+        xml_path = str(resources_path) + 'kuka/kuka.xml'   
+        urdf_model_path = str(resources_path) + "kuka/kuka.urdf"
+
+    elif robot_name == "iiwa_gripper":
+        xml_path = str(resources_path) + 'kuka/kuka_gripper.xml'   
+        urdf_model_path = str(resources_path) + "kuka/kuka_gripper.urdf"
+
+    elif robot_name == "trifinger0":
+        xml_path = str(resources_path) + 'trifinger/nyu_finger_triple0.xml'   
+        urdf_model_path = str(resources_path) + "trifinger/nyu_finger_triple0.urdf"
+
+    elif robot_name == "trifinger1":
+        xml_path = str(resources_path) + 'trifinger/nyu_finger_triple1.xml'   
+        urdf_model_path = str(resources_path) + "trifinger/nyu_finger_triple1.urdf"
+
+    elif robot_name == "trifinger2":
+        xml_path = str(resources_path) + 'trifinger/nyu_finger_triple2.xml'   
+        urdf_model_path = str(resources_path) + "trifinger/nyu_finger_triple2.urdf"
+
+    elif robot_name == "teststand":
+        xml_path = str(resources_path) + 'teststand/teststand.xml'   
+        urdf_model_path = str(resources_path) + "teststand/teststand.urdf"
+
+    return xml_path, urdf_model_path, mesh_dir
 
 def load_robot(xml_path, urdf_path, mesh_dir):
     
@@ -17,7 +54,6 @@ def load_robot(xml_path, urdf_path, mesh_dir):
 
     if urdf_path:
         try:
-            mesh_dir = str(pathlib.Path('.').absolute().parent.parent) + '/'
             pin_robot = pin.RobotWrapper.BuildFromURDF(
                                                 filename=urdf_path,
                                                 package_dirs=mesh_dir,
@@ -32,7 +68,7 @@ def load_robot(xml_path, urdf_path, mesh_dir):
 
     return pin_robot, mjmodel
 
-def MiMRobotLoader(robot_name : str):
+def MiMRobotLoader(robot_name: str):
     """
     Input:
         robot_name : the name of the robot you want to load
@@ -40,38 +76,9 @@ def MiMRobotLoader(robot_name : str):
         pinocchio robot wrapper, mujoco xml_path
     """
     
-    python_path = pathlib.Path('.').absolute().parent
-    mesh_dir = str(pathlib.Path('.').absolute().parent.parent) + '/'
-    
-    if robot_name == "iiwa":
-        xml_path = str(python_path) + '/robots/kuka/kuka.xml'   
-        urdf_model_path = str(python_path) + "/robots/kuka/kuka.urdf"
-        pin_robot, mjmodel = load_robot(xml_path, urdf_model_path, mesh_dir)
-
-    elif robot_name == "iiwa_gripper":
-        xml_path = str(python_path) + '/robots/kuka/kuka_gripper.xml'   
-        urdf_model_path = str(python_path) + "/robots/kuka/kuka_gripper.urdf"
-        pin_robot, mjmodel = load_robot(xml_path, urdf_model_path, mesh_dir)
-
-    elif robot_name == "trifinger0":
-        xml_path = str(python_path) + '/robots/trifinger/nyu_finger_triple0.xml'   
-        urdf_model_path = str(python_path) + "/robots/trifinger/nyu_finger_triple0.urdf"
-        pin_robot, mjmodel = load_robot(xml_path, urdf_model_path, mesh_dir)
-
-
-    elif robot_name == "trifinger1":
-        xml_path = str(python_path) + '/robots/trifinger/nyu_finger_triple1.xml'   
-        urdf_model_path = str(python_path) + "/robots/trifinger/nyu_finger_triple1.urdf"
-        pin_robot, mjmodel = load_robot(xml_path, urdf_model_path, mesh_dir)
-
-    elif robot_name == "trifinger2":
-        xml_path = str(python_path) + '/robots/trifinger/nyu_finger_triple2.xml'   
-        urdf_model_path = str(python_path) + "/robots/trifinger/nyu_finger_triple2.urdf"
-        pin_robot, mjmodel = load_robot(xml_path, urdf_model_path, mesh_dir)
-
-    elif robot_name == "teststand":
-        xml_path = str(python_path) + '/robots/teststand/teststand.xml'   
-        urdf_model_path = str(python_path) + "/robots/teststand/teststand.urdf"
+  
+    if robot_name in mim_robots:
+        xml_path, urdf_model_path, mesh_dir = find_mim_paths(robot_name)
         pin_robot, mjmodel = load_robot(xml_path, urdf_model_path, mesh_dir)
 
     else:

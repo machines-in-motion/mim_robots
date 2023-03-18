@@ -4,7 +4,7 @@ import numpy as np
 import time
 import pathlib
 import yaml
-from callbacks import Callbacks
+from mim_robots.callbacks import Callbacks
 
 
 class MujocoRenderer(Callbacks):

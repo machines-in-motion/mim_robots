@@ -5,11 +5,8 @@
 import pathlib
 import os
 
-python_path = pathlib.Path('.').absolute().parent/'python'
-os.sys.path.insert(1, str(python_path))
-
-from mujoco_env import MujocoWorld
-from robot_loader import MiMRobotLoader
+from mim_robots.mujoco_env import MujocoWorld
+from mim_robots.robot_loader import MiMRobotLoader
 
 pin_robot, mjpath = MiMRobotLoader("a1")
 # pin_robot, mjpath = MiMRobotLoader("iiwa")

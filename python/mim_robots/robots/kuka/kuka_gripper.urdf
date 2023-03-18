@@ -44,14 +44,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_base.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_base.stl"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_base.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_base.stl"/>
       </geometry>
       <material name="Grey"/>
     </collision>
@@ -85,14 +85,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_1.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_1.stl"/>
       </geometry>
       <material name="Orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_1.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_1.stl"/>
       </geometry>
       <material name="Orange"/>
     </collision>
@@ -120,14 +120,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_2.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_2.stl"/>
       </geometry>
       <material name="Orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_2.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_2.stl"/>
       </geometry>
       <material name="Orange"/>
     </collision>
@@ -155,14 +155,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_3.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_3.stl"/>
       </geometry>
       <material name="Orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_3.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_3.stl"/>
       </geometry>
       <material name="Orange"/>
     </collision>
@@ -190,14 +190,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_4.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_4.stl"/>
       </geometry>
       <material name="Orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_4.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_4.stl"/>
       </geometry>
       <material name="Orange"/>
     </collision>
@@ -225,14 +225,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_5.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_5.stl"/>
       </geometry>
       <material name="Orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_5.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_5.stl"/>
       </geometry>
       <material name="Orange"/>
     </collision>
@@ -259,14 +259,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_6.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_6.stl"/>
       </geometry>
       <material name="Orange"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_6.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_6.stl"/>
       </geometry>
       <material name="Orange"/>
     </collision>
@@ -289,14 +289,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_7.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_7.stl"/>
       </geometry>
       <material name="Grey"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/kuka/iiwa_link_7.stl"/>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_7.stl"/>
       </geometry>
       <material name="Grey"/>
     </collision>
@@ -315,13 +315,13 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-base.obj" scale="0.1 0.1 0.1"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-base.obj" scale="0.1 0.1 0.1"/>
       </geometry>
       <material name="Blanc"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-base.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-base.obj" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -364,13 +364,13 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.1 0.1 0.1"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.1 0.1 0.1"/>
       </geometry>
       <material name="Blanc"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -387,13 +387,13 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.1 0.1 0.1"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.1 0.1 0.1"/>
       </geometry>
       <material name="Blanc"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -408,13 +408,13 @@
   <link name="robotiq_2f_85_right_follower">
     <visual>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.1 0.1 0.1"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.1 0.1 0.1"/>
       </geometry>
       <material name="Blanc"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <inertial>
@@ -435,13 +435,13 @@
 		</inertial>
 		<visual>
 			<geometry>
-				<mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.0001 0.0001 0.0001"/>
+				<mesh filename="package://kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.0001 0.0001 0.0001"/>
 			</geometry>
       <material name="Blanc"/>
 		</visual>
 		<collision>
 			<geometry>
-				<mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.001 0.001 0.001"/>
 			</geometry>
 		</collision>
 	</link>
@@ -461,13 +461,13 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.1 0.1 0.1"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.1 0.1 0.1"/>
       </geometry>
       <material name="Blanc"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -488,13 +488,13 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.1 0.1 0.1"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.1 0.1 0.1"/>
       </geometry>
       <material name="Blanc"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -511,13 +511,13 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.1 0.1 0.1"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.1 0.1 0.1"/>
       </geometry>
       <material name="Blanc"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -532,13 +532,13 @@
   <link name="robotiq_2f_85_left_follower">
     <visual>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.1 0.1 0.1"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.1 0.1 0.1"/>
       </geometry>
       <material name="Blanc"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <inertial>
@@ -559,13 +559,13 @@
 			</inertial>
       <visual>
         <geometry>
-          <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.0001 0.0001 0.0001"/>
+          <mesh filename="package://kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.0001 0.0001 0.0001"/>
         </geometry>
         <material name="Blanc"/>
       </visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.001 0.001 0.001"/>
+					<mesh filename="package://kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.001 0.001 0.001"/>
 				</geometry>
 			</collision>
 		</link>
@@ -585,13 +585,13 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.1 0.1 0.1"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.1 0.1 0.1"/>
       </geometry>
       <material name="Blanc"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://mim_robots/robots/kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>

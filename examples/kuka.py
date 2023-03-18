@@ -5,11 +5,8 @@
 import pathlib
 import os
 
-python_path = pathlib.Path('.').absolute().parent/'python'
-os.sys.path.insert(1, str(python_path))
-
-from robot_loader import MiMRobotLoader
-from mujoco_renderer import MujocoRenderer
+from mim_robots.robot_loader import MiMRobotLoader
+from mim_robots.mujoco_renderer import MujocoRenderer
 
 import mujoco
 import time

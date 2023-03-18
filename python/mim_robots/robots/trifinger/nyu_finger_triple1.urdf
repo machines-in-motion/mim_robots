@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="nyu_finger0">
+<robot name="nyu_finger1">
   <!--
     Frames are defined such that they all align with the base frame when all
     joints are at position zero.
@@ -28,44 +28,44 @@
   <!--
         Fixed links for the finger base (parts where the upper link is mounted).
         -->
-  <link name="finger0_base_link">
+  <link name="finger1_base_link">
     <visual>
       <origin rpy="0 0 0" xyz="-0.17995 0 0"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/base_back.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/base_back.stl" scale="1 1 1"/>
       </geometry>
       <material name="fingeredu_material"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="-0.17995 0 0"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/base_back.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/base_back.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0.0255 0 0"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/base_front.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/base_front.stl" scale="1 1 1"/>
       </geometry>
       <material name="fingeredu_material"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0.0255 0 0"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/base_front.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/base_front.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0.0255 0.02 0.08"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/base_side_left.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/base_side_left.stl" scale="1 1 1"/>
       </geometry>
       <material name="fingeredu_material"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0.0255 0.02 0.08"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/base_side_left.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/base_side_left.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <!-- Disable this part.  It is not very relevant for collisions but
@@ -79,14 +79,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0.0255 0 0.08"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/base_top.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/base_top.stl" scale="1 1 1"/>
       </geometry>
       <material name="fingeredu_material"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0.0255 0 0.08"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/base_top.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/base_top.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -97,18 +97,18 @@
   </link>
   <!-- The movable links (upper, middle and lower) of the finger. -->
   <!-- FIXME inertias are not correct! -->
-  <link name="finger0_upper_link">
+  <link name="finger1_upper_link">
     <visual>
       <origin rpy="0 0 0" xyz="0.0195 0 0"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/upper_link.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/upper_link.stl" scale="1 1 1"/>
       </geometry>
       <material name="fingeredu_material"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0.0195 0 0"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/upper_link.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/upper_link.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -120,18 +120,18 @@
       <inertia ixx="0.00003" ixy="0.00005" ixz="0.00000" iyy="0.00041" iyz="0.00000" izz="0.00041"/>
     </inertial>
   </link>
-  <link name="finger0_middle_link">
+  <link name="finger1_middle_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/middle_link.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/middle_link.stl" scale="1 1 1"/>
       </geometry>
       <material name="fingeredu_material"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/middle_link.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/middle_link.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
@@ -140,18 +140,18 @@
       <inertia ixx="0.00041" ixy="0.00000" ixz="0.00000" iyy="0.00041" iyz="0.00005" izz="0.00003"/>
     </inertial>
   </link>
-  <link name="finger0_lower_link">
+  <link name="finger1_lower_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/lower_link.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/lower_link.stl" scale="1 1 1"/>
       </geometry>
       <material name="fingeredu_material"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://qpnet/robots/trifinger/meshes/lower_link.stl" scale="1 1 1"/>
+        <mesh filename="package://trifinger/meshes/lower_link.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <!-- TODO: these are the interial values from the Solo lower leg
@@ -164,36 +164,36 @@
     </inertial>
   </link>
   <!-- fixed link for finger tip -->
-  <link name="finger0_tip_link">
+  <link name="finger1_tip_link">
     <inertial>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <mass value="0.01"/>
       <inertia ixx="1.66666666667e-07" ixy="0" ixz="0" iyy="1.66666666667e-07" iyz="0" izz="1.66666666667e-07"/>
     </inertial>
   </link>
-  <joint name="finger0_lower_to_tip_joint" type="fixed">
-    <parent link="finger0_lower_link"/>
-    <child link="finger0_tip_link"/>
+  <joint name="finger1_lower_to_tip_joint" type="fixed">
+    <parent link="finger1_lower_link"/>
+    <child link="finger1_tip_link"/>
     <origin xyz="0 -0.008 -0.16"/>
   </joint>
   <!-- kinematics -->
-  <joint name="finger0_base_to_upper_joint" type="revolute">
-    <parent link="finger0_base_link"/>
-    <child link="finger0_upper_link"/>
+  <joint name="finger1_base_to_upper_joint" type="revolute">
+    <parent link="finger1_base_link"/>
+    <child link="finger1_upper_link"/>
     <limit effort="1000" lower="-1.57079632679" upper="1.57079632679" velocity="1000"/>
     <axis xyz="-1 0 0"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
   </joint>
-  <joint name="finger0_upper_to_middle_joint" type="revolute">
-    <parent link="finger0_upper_link"/>
-    <child link="finger0_middle_link"/>
+  <joint name="finger1_upper_to_middle_joint" type="revolute">
+    <parent link="finger1_upper_link"/>
+    <child link="finger1_middle_link"/>
     <limit effort="1000" lower="-1.57079632679" upper="1.57079632679" velocity="1000"/>
     <axis xyz="0 1 0"/>
     <origin rpy="0 0 0" xyz="0 -0.014 0"/>
   </joint>
-  <joint name="finger0_middle_to_lower_joint" type="revolute">
-    <parent link="finger0_middle_link"/>
-    <child link="finger0_lower_link"/>
+  <joint name="finger1_middle_to_lower_joint" type="revolute">
+    <parent link="finger1_middle_link"/>
+    <child link="finger1_lower_link"/>
     <limit effort="1000" lower="-3.14159265359" upper="3.14159265359" velocity="1000"/>
     <axis xyz="0 1 0"/>
     <origin rpy="0 0 0" xyz="0 -0.03745 -0.16"/>
@@ -201,9 +201,9 @@
   <!--
     Define the global base link and place the finger relative to it.
     -->
-  <joint name="base_to_finger0" type="fixed">
+  <joint name="base_to_finger1" type="fixed">
     <parent link="base_link"/>
-    <child link="finger0_base_link"/>
-    <origin xyz="-0.065 0 0.37"/>
+    <child link="finger1_base_link"/>
+    <origin xyz="0.0325 -0.0563 0.37" rpy="0 0 2.09"/>
   </joint>
 </robot>
