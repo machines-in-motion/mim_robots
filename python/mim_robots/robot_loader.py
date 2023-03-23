@@ -10,14 +10,19 @@ import mujoco
 import os
 import importlib
 from importlib import import_module  # type: ignore
+import importlib_resources
 
 
 # TODO: MOVE THESE TO A YAML FILE
 mim_robots = ["iiwa", "iiwa_gripper", "teststand", "trifinger0", "trifinger1", "trifinger2"]
 
 def find_mim_paths(robot_name: str):
-    with importlib.resources.path(__package__, "robot_loader.py") as p:
-        package_path = p.parent.absolute()
+    try:
+        with importlib.resources.path(__package__, "robot_loader.py") as p:
+            package_path = p.parent.absolute()
+    except: # compatibility for Python < 3.7
+        with importlib_resources.path(__package__, "robot_loader.py") as p:
+            package_path = p.parent.absolute()
     resources_path = str(package_path) + '/robots/'
     mesh_dir = resources_path
 

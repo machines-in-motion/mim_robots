@@ -57,7 +57,8 @@ setup(
     install_requires=[
         "setuptools",
         "mujoco",
-        "pin"
+        "pin",
+        "importlib_resources"
     ],
     zip_safe=True,
     maintainer="hz",
