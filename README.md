@@ -25,3 +25,16 @@ Each robot env should only contain information regarding the robots to be loaded
 
 ## Possible Errors :
 1. When trying to load a new robot if you see this error - ``` git.exc.InvalidGitRepositoryError ``` then run ``` rm -rf ~/.cache/robot_descriptions/jaxon_description``` and try again. This is an error that comes from robot_description. Link to issue - https://github.com/robot-descriptions/robot_descriptions.py
+
+## Maintainer :
+
+1. Avadesh Meduri
+2. Huaijiang Zhu
+
+## Copyrights
+
+Copyright(c) 2023 New York University
+
+## License
+
+BSD 3-Clause License
