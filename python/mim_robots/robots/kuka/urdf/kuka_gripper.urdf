@@ -1,0 +1,675 @@
+<?xml version="1.0" ?>
+<robot name="KUKAiiwa14" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <material name="Black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="Blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+  <material name="Green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+  <material name="Grey">
+    <color rgba="0.4 0.4 0.4 1.0"/>
+  </material>
+  <material name="Orange">
+    <color rgba="1.0 0.4235294117647059 0.0392156862745098 1.0"/>
+  </material>
+  <material name="Brown">
+    <color rgba="0.8705882352941177 0.8117647058823529 0.7647058823529411 1.0"/>
+  </material>
+  <material name="Red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+  <material name="White">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+  <material name="Blanc">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+<!-- Fix to world just for testing -->
+  <link name="world"/>
+  <!--joint between WORLD and BASE-->
+  <joint name="A0" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="world"/>
+    <child link="iiwa_base"/>
+  </joint>
+  <link name="iiwa_base">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="5"/>
+      <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.06" iyz="0" izz="0.03"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_base.stl"/>
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_base.stl"/>
+      </geometry>
+      <material name="Grey"/>
+    </collision>
+    <self_collision_checking>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <capsule length="0.25" radius="0.15"/>
+      </geometry>
+    </self_collision_checking>
+  </link>
+  <!-- joint between base and link1 -->
+  <joint name="A1" type="revolute">
+    <origin rpy="0.0 0.0 0.0" xyz="0.00000 0.00000 0.15750"/>
+    <parent link="iiwa_base"/>
+    <child link="L1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="320" lower="-2.96706" upper="2.96706" velocity="1.48353"/>
+    <!-- <safety_controller soft_lower_limit="${-168 * PI / 180}"
+                          soft_upper_limit="${168 * PI / 180}"
+                          k_position="${safety_controller_k_pos}"
+                          k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/> -->
+  </joint>
+  <!-- LINK 1-->
+  <link name="L1">
+    <inertial>
+      <origin xyz="0.00000 0.00000 0.00000"/>
+      <mass value="3.94781"/>
+      <inertia ixx="0.00455" ixy="0.00000" ixz="-0.00000" iyy="0.00454" iyz="-0.00001" izz="0.00029"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_1.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_1.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </collision>
+  </link>
+  <!-- joint between link1 and link2 -->
+    <joint name="A2" type="revolute">
+    <origin rpy="2.3561944901923457 -1.5707962635746238 2.3561944901923457" xyz="0.00000 0.00000 0.20250"/>
+    <parent link="L1"/>
+    <child link="L2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="320" lower="-2.0944" upper="2.0944" velocity="1.48353"/>
+    <!-- <safety_controller soft_lower_limit="${-118 * PI / 180}"
+                          soft_upper_limit="${118 * PI / 180}"
+                          k_position="${safety_controller_k_pos}"
+                          k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/> -->
+  </joint>
+  <!-- LINK 2-->
+  <link name="L2">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0003 0.059 0.042"/>
+      <mass value="4"/>
+      <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.018" iyz="0" izz="0.044"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_2.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_2.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </collision>
+  </link>
+  <!-- joint between link2 and link3 -->
+  <joint name="A3" type="revolute">
+    <origin rpy="1.5707963267948948 -4.371139000186238E-8 1.5707963705062866" xyz="0.20450 0.00000 0.00000"/>
+    <parent link="L2"/>
+    <child link="L3"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="176" lower="-2.96706" upper="2.96706" velocity="1.74533"/>
+    <!-- <safety_controller soft_lower_limit="${-168 * PI / 180}"
+                          soft_upper_limit="${168 * PI / 180}"
+                          k_position="${safety_controller_k_pos}"
+                          k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/> -->
+  </joint>
+  <!-- LINK 3-->
+  <link name="L3">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0.03 0.13"/>
+      <mass value="3"/>
+      <inertia ixx="0.08" ixy="0" ixz="0" iyy="0.075" iyz="0" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_3.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_3.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </collision>
+  </link>
+  <!-- joint between link3 and link4 -->
+  <joint name="A4" type="revolute">
+    <origin rpy="1.5707963705062866 -0.0 0.0" xyz="0.00000 0.00000 0.21550"/>
+    <parent link="L3"/>
+    <child link="L4"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="176" lower="-2.0944" upper="2.0944" velocity="1.309"/>
+    <!-- <safety_controller soft_lower_limit="${-118 * PI / 180}"
+                          soft_upper_limit="${118 * PI / 180}"
+                          k_position="${safety_controller_k_pos}"
+                          k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/> -->
+  </joint>
+  <!-- LINK 4-->
+  <link name="L4">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0.067 0.034"/>
+      <mass value="2.7"/>
+      <inertia ixx="0.03" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.029"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_4.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_4.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </collision>
+  </link>
+  <!-- joint between link4 and link5 -->
+  <joint name="A5" type="revolute">
+    <origin rpy="-1.5707963705062866 0.0 -0.0" xyz="0.00000 0.18450 0.00000"/>
+    <parent link="L4"/>
+    <child link="L5"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="110" lower="-2.96706" upper="2.96706" velocity="2.26893"/>
+    <!-- <safety_controller soft_lower_limit="${-168 * PI / 180}"
+                          soft_upper_limit="${168 * PI / 180}"
+                          k_position="${safety_controller_k_pos}"
+                          k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/> -->
+  </joint>
+  <!-- LINK 5-->
+  <link name="L5">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0001 0.021 0.076"/>
+      <mass value="1.7"/>
+      <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.018" iyz="0" izz="0.005"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_5.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_5.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </collision>
+  </link>
+  <!-- joint between link5 and link6 -->
+  <joint name="A6" type="revolute">
+    <origin rpy="2.3561944901923457 -1.5707962635746238 2.3561944901923457" xyz="0.00000 -0.06070 0.21550"/>
+    <parent link="L5"/>
+    <child link="L6"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="40" lower="-2.0944" upper="2.0944" velocity="2.35619"/>
+    <!-- <safety_controller soft_lower_limit="${-118 * PI / 180}"
+                          soft_upper_limit="${118 * PI / 180}"
+                          k_position="${safety_controller_k_pos}"
+                          k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/> -->
+  </joint>
+  <link name="L6">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0.0006 0.0004"/>
+      <mass value="1.8"/>
+      <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.0036" iyz="0" izz="0.0047"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_6.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_6.stl"/>
+      </geometry>
+      <material name="Orange"/>
+    </collision>
+  </link>
+  <!-- joint between link6 and link7 -->
+  <joint name="A7" type="revolute">
+    <origin rpy="1.5707963267948948 -4.371139000186238E-8 1.5707963705062866" xyz="0.08100 0.00000 0.06070"/>
+    <parent link="L6"/>
+    <child link="L7"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="40" lower="-3.05433" upper="3.05433" velocity="2.35619"/>
+  </joint>
+  <!-- LINK 7-->
+  <link name="L7">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.02"/>
+      <mass value="0.3"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_7.stl"/>
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://kuka/meshes/kuka/iiwa_link_7.stl"/>
+      </geometry>
+      <material name="Grey"/>
+    </collision>
+  </link>
+
+  <joint name="base_link_robotiq_2f_85_base_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="L7"/>
+    <child link="robotiq_2f_85_base"/>
+  </joint>
+  <link name="robotiq_2f_85_base">
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0.055"/>
+      <inertia ixx="0.000190833333333" ixy="0" ixz="0" iyy="0.00018" iyz="0" izz="0.000190833333333"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-base.obj" scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="Blanc"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-base.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="gripper_center" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.125"/>
+    <parent link="robotiq_2f_85_base"/>
+    <child link="gripper_center_link"/>
+  </joint>
+  
+  <link name="gripper_center_link">
+    <inertial>
+      <mass value="0.0001"/>
+      <origin xyz="0 0 0.0"/>
+      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.0"/>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+  </link>
+  <!-- right finger -->
+  <joint name="robotiq_2f_85_right_driver_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0.0306011 0.054904"/>
+    <parent link="robotiq_2f_85_base"/>
+    <child link="robotiq_2f_85_right_driver"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="60" lower="0.0" upper="0.834" velocity="1.91986177778"/>
+  </joint>
+  <link name="robotiq_2f_85_right_driver">
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0.055"/>
+      <inertia ixx="0.000190833333333" ixy="0" ixz="0" iyy="0.00018" iyz="0" izz="0.000190833333333"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="Blanc"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="robotiq_2f_85_right_coupler_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.0315 -0.0041"/>
+    <parent link="robotiq_2f_85_right_driver"/>
+    <child link="robotiq_2f_85_right_coupler"/>
+  </joint>
+  <link name="robotiq_2f_85_right_coupler">
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0.055"/>
+      <inertia ixx="0.000190833333333" ixy="0" ixz="0" iyy="0.00018" iyz="0" izz="0.000190833333333"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="Blanc"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="robotiq_2f_85_right_follower_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0.0061 0.0471"/>
+    <parent link="robotiq_2f_85_right_coupler"/>
+    <child link="robotiq_2f_85_right_follower"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="176" lower="-2.96705911111" upper="2.96705911111" velocity="1.91986177778"/>
+    <mimic joint="robotiq_2f_85_right_driver_joint" multiplier="-1"/>
+  </joint>
+  <link name="robotiq_2f_85_right_follower">
+    <visual>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="Blanc"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0.055"/>
+      <inertia ixx="0.000190833333333" ixy="0" ixz="0" iyy="0.00018" iyz="0" izz="0.000190833333333"/>
+    </inertial>
+  </link>
+  <joint name="robotiq_2f_85_right_pad_joint" type="fixed">
+			<parent link="robotiq_2f_85_right_follower"/>
+			<child link="robotiq_2f_85_right_pad"/>
+	</joint>
+	<link name="robotiq_2f_85_right_pad">
+		<inertial>
+			<mass value="0.1"/>
+			<origin xyz="0 0 0.055"  />
+      <inertia ixx="0.00019" iyy="0.00018" izz="0.00019" ixy="0" iyz="0" ixz="0"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<mesh filename="package://kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.0001 0.0001 0.0001"/>
+			</geometry>
+      <material name="Blanc"/>
+		</visual>
+		<collision>
+			<geometry>
+				<mesh filename="package://kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.001 0.001 0.001"/>
+			</geometry>
+		</collision>
+	</link>
+  <joint name="robotiq_2f_85_right_spring_link_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0.012 0.0614"/>
+    <parent link="robotiq_2f_85_base"/>
+    <child link="robotiq_2f_85_right_spring_link"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="176" lower="-2.96705911111" upper="2.96705911111" velocity="1.91986177778"/>
+    <mimic joint="robotiq_2f_85_right_driver_joint" multiplier="1"/>
+  </joint>
+  <link name="robotiq_2f_85_right_spring_link">
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0.055"/>
+      <inertia ixx="0.000190833333333" ixy="0" ixz="0" iyy="0.00018" iyz="0" izz="0.000190833333333"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="Blanc"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- left finger -->
+  <joint name="robotiq_2f_85_left_driver_joint" type="revolute">
+    <origin rpy="0 0 3.141592653589793" xyz="0 -0.0306011 0.054904"/>
+    <parent link="robotiq_2f_85_base"/>
+    <child link="robotiq_2f_85_left_driver"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="176" lower="0.0" upper="0.834" velocity="1.91986177778"/>
+    <mimic joint="robotiq_2f_85_right_driver_joint" multiplier="1"/>
+  </joint>
+  <link name="robotiq_2f_85_left_driver">
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0.055"/>
+      <inertia ixx="0.000190833333333" ixy="0" ixz="0" iyy="0.00018" iyz="0" izz="0.000190833333333"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="Blanc"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-driver.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="robotiq_2f_85_left_coupler_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.0315 -0.0041"/>
+    <parent link="robotiq_2f_85_left_driver"/>
+    <child link="robotiq_2f_85_left_coupler"/>
+  </joint>
+  <link name="robotiq_2f_85_left_coupler">
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0.055"/>
+      <inertia ixx="0.000190833333333" ixy="0" ixz="0" iyy="0.00018" iyz="0" izz="0.000190833333333"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="Blanc"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-coupler.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="robotiq_2f_85_left_follower_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0.0061 0.0471"/>
+    <parent link="robotiq_2f_85_left_coupler"/>
+    <child link="robotiq_2f_85_left_follower"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="176" lower="-2.96705911111" upper="2.96705911111" velocity="1.91986177778"/>
+    <mimic joint="robotiq_2f_85_right_driver_joint" multiplier="-1"/>
+  </joint>
+  <link name="robotiq_2f_85_left_follower">
+    <visual>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="Blanc"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-follower.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0.055"/>
+      <inertia ixx="0.000190833333333" ixy="0" ixz="0" iyy="0.00018" iyz="0" izz="0.000190833333333"/>
+    </inertial>
+  </link>
+  <joint name="robotiq_2f_85_left_pad_joint" type="fixed">
+			<parent link="robotiq_2f_85_left_follower"/>
+			<child link="robotiq_2f_85_left_pad"/>
+		</joint>
+		<link name="robotiq_2f_85_left_pad">
+			<inertial>
+				<mass value="0.1"/>
+				<origin xyz="0 0 0.055"  />
+				<inertia ixx="0.00019" iyy="0.00018" izz="0.00019" ixy="0" iyz="0" ixz="0"/>
+			</inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.0001 0.0001 0.0001"/>
+        </geometry>
+        <material name="Blanc"/>
+      </visual>
+			<collision>
+				<geometry>
+					<mesh filename="package://kuka/meshes/gripper/robotiq-2f-pad.stl" scale="0.001 0.001 0.001"/>
+				</geometry>
+			</collision>
+		</link>
+  <joint name="robotiq_2f_85_left_spring_link_joint" type="revolute">
+    <origin rpy="0 0 3.141592653589793" xyz="0 -0.012 0.0614"/>
+    <parent link="robotiq_2f_85_base"/>
+    <child link="robotiq_2f_85_left_spring_link"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="176" lower="-2.96705911111" upper="2.96705911111" velocity="1.91986177778"/>
+    <mimic joint="robotiq_2f_85_right_driver_joint" multiplier="1"/>
+  </joint>
+  <link name="robotiq_2f_85_left_spring_link">
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0.055"/>
+      <inertia ixx="0.000190833333333" ixy="0" ixz="0" iyy="0.00018" iyz="0" izz="0.000190833333333"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="Blanc"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://kuka/meshes/gripper/robotiq-2f-spring_link.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <transmission name="robotiq_2f_85_right_driver_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="robotiq_2f_85_right_driver_joint">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="robotiq_2f_85_right_driver_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+    <!-- Enable the Joint Feedback -->
+  <gazebo reference="KUKAiiwa14_joint_7">
+    <provideFeedback>true</provideFeedback>
+  </gazebo>
+  <!-- The ft_sensor plugin -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_ft_sensor.so" name="ft_sensor">
+      <updateRate>50.0</updateRate>
+      <topicName>/KUKAiiwa14/state/CartesianWrench</topicName>
+      <jointName>KUKAiiwa14_joint_7</jointName>
+    </plugin>
+  </gazebo>
+  <!-- Load Gazebo lib and set the robot namespace -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+      <robotNamespace>/KUKAiiwa14</robotNamespace>
+    </plugin>
+  </gazebo>
+  <!-- Link0 -->
+  <gazebo reference="KUKAiiwa14_base">
+    <material>Gazebo/Grey</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+  <!-- Link1 -->
+  <gazebo reference="KUKAiiwa14_link1">
+    <material>Gazebo/Orange</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+  <!-- Link2 -->
+  <gazebo reference="KUKAiiwa14_link2">
+    <material>Gazebo/Orange</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+  <!-- Link3 -->
+  <gazebo reference="KUKAiiwa14_link3">
+    <material>Gazebo/Orange</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+  <!-- Link4 -->
+  <gazebo reference="KUKAiiwa14_link4">
+    <material>Gazebo/Orange</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+  <!-- Link5 -->
+  <gazebo reference="KUKAiiwa14_link5">
+    <material>Gazebo/Orange</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+  <!-- Link6 -->
+  <gazebo reference="KUKAiiwa14_link6">
+    <material>Gazebo/Orange</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+  <!-- Link7 -->
+  <gazebo reference="KUKAiiwa14_link7">
+    <material>Gazebo/Grey</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+  <!-- <xacro:iiwa_transmission hardware_interface="${hardware_interface}"/> -->
+</robot>

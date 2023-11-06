@@ -14,7 +14,7 @@ import importlib_resources
 
 
 # TODO: MOVE THESE TO A YAML FILE
-mim_robots = ["iiwa", "iiwa_gripper", "teststand", "trifinger0", "trifinger1", "trifinger2"]
+mim_robots = ["iiwa", "iiwa_ft_sensor_shell", "iiwa_ft_sensor_ball", "iiwa_gripper", "teststand", "trifinger0", "trifinger1", "trifinger2"]
 
 def find_mim_paths(robot_name: str):
     try:
@@ -72,6 +72,16 @@ def load_robot(xml_path, urdf_path, mesh_dir):
         mjmodel = mujoco.MjModel.from_xml_path(xml_path)
 
     return pin_robot, mjmodel
+
+
+def load_bullet_wrapper(robot_name):
+    if(robot_name == 'iiwa'):
+        from mim_robot.robots.kuka.pinbullet.config import Iiwaconfig
+        config = Iiwaconfig()
+        robot = config.buildRobotWrapper()
+    else:
+        pass
+    return robot
 
 def MiMRobotLoader(robot_name: str):
     """

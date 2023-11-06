@@ -1,0 +1,110 @@
+<mujoco model="KUKAiiwa14">
+  <compiler angle="radian" autolimits="true" meshdir="meshes"/>
+  <size/>
+  <default/>
+  <asset>
+    <mesh name="iiwa_base" file="kuka/iiwa_base.stl"/>
+    <mesh name="iiwa_link_1" file="kuka/iiwa_link_1.stl"/>
+    <mesh name="iiwa_link_2" file="kuka/iiwa_link_2.stl"/>
+    <mesh name="iiwa_link_3" file="kuka/iiwa_link_3.stl"/>
+    <mesh name="iiwa_link_4" file="kuka/iiwa_link_4.stl"/>
+    <mesh name="iiwa_link_5" file="kuka/iiwa_link_5.stl"/>
+    <mesh name="iiwa_link_6" file="kuka/iiwa_link_6.stl"/>
+    <mesh name="iiwa_link_7" file="kuka/iiwa_link_7.stl"/>
+    <mesh name="robotiq-2f-base" file="gripper/robotiq-2f-base.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="robotiq-2f-driver" file="gripper/robotiq-2f-driver.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="robotiq-2f-coupler" file="gripper/robotiq-2f-coupler.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="robotiq-2f-follower" file="gripper/robotiq-2f-follower.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="robotiq-2f-pad" file="gripper/robotiq-2f-pad.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="robotiq-2f-spring_link" file="gripper/robotiq-2f-spring_link.stl" scale="0.001 0.001 0.001"/>
+  </asset>
+  <worldbody>
+    <geom type="mesh" rgba="0.4 0.4 0.4 1" mesh="iiwa_base"/>
+    <body name="L1" pos="0 0 0.1575">
+      <inertial pos="0 0 0" quat="0.999999 -0.00117646 0 0" mass="3.94781" diaginertia="0.00455 0.00454002 0.000289976"/>
+      <joint name="A1" pos="0 0 0" axis="0 0 1" range="-2.96706 2.96706"/>
+      <geom type="mesh" rgba="1 0.423529 0.0392157 1" mesh="iiwa_link_1"/>
+      <body name="L2" pos="0 0 0.2025" quat="-0.5 0.5 0.5 0.5">
+        <inertial pos="0.0003 0.059 0.042" quat="0.707107 0.707107 0 0" mass="4" diaginertia="0.05 0.044 0.018"/>
+        <joint name="A2" pos="0 0 0" axis="0 0 1" range="-2.0944 2.0944"/>
+        <geom type="mesh" rgba="1 0.423529 0.0392157 1" mesh="iiwa_link_2"/>
+        <body name="L3" pos="0.2045 0 0" quat="0.5 0.5 0.5 0.5">
+          <inertial pos="0 0.03 0.13" mass="3" diaginertia="0.08 0.075 0.01"/>
+          <joint name="A3" pos="0 0 0" axis="0 0 1" range="-2.96706 2.96706"/>
+          <geom type="mesh" rgba="1 0.423529 0.0392157 1" mesh="iiwa_link_3"/>
+          <body name="L4" pos="0 0 0.2155" quat="0.707107 0.707107 0 0">
+            <inertial pos="0 0.067 0.034" quat="0.707107 0.707107 0 0" mass="2.7" diaginertia="0.03 0.029 0.01"/>
+            <joint name="A4" pos="0 0 0" axis="0 0 1" range="-2.0944 2.0944"/>
+            <geom type="mesh" rgba="1 0.423529 0.0392157 1" mesh="iiwa_link_4"/>
+            <body name="L5" pos="0 0.1845 0" quat="0.707107 -0.707107 0 0">
+              <inertial pos="0.0001 0.021 0.076" mass="1.7" diaginertia="0.02 0.018 0.005"/>
+              <joint name="A5" pos="0 0 0" axis="0 0 1" range="-2.96706 2.96706"/>
+              <geom type="mesh" rgba="1 0.423529 0.0392157 1" mesh="iiwa_link_5"/>
+              <body name="L6" pos="0 -0.0607 0.2155" quat="-0.5 0.5 0.5 0.5">
+                <inertial pos="0 0.0006 0.0004" quat="0.707107 0.707107 0 0" mass="1.8" diaginertia="0.005 0.0047 0.0036"/>
+                <joint name="A6" pos="0 0 0" axis="0 0 1" range="-2.0944 2.0944"/>
+                <geom type="mesh" rgba="1 0.423529 0.0392157 1" mesh="iiwa_link_6"/>
+                <body name="L7" pos="0.081 0 0.0607" quat="0.5 0.5 0.5 0.5">
+                  <inertial pos="0 0 0.02875" mass="0.4" diaginertia="0.00128271 0.00127188 0.00119083"/>
+                  <joint name="A7" pos="0 0 0" axis="0 0 1" range="-3.05433 3.05433"/>
+                  <geom type="mesh" rgba="0.4 0.4 0.4 1" mesh="iiwa_link_7"/>
+                  <geom type="mesh" mesh="robotiq-2f-base"/>
+                  <body name="robotiq_2f_85_right_driver" pos="0 0.0306011 0.054904">
+                    <inertial pos="0 0.01575 0.05295" quat="0.738425 0.674335 0 0" mass="0.2" diaginertia="0.00043212 0.000431866 0.000360253"/>
+                    <joint name="robotiq_2f_85_right_driver_joint" pos="0 0 0" axis="1 0 0" range="0 0.834"/>
+                    <geom type="mesh" mesh="robotiq-2f-driver"/>
+                    <geom pos="0 0.0315 -0.0041" type="mesh" mesh="robotiq-2f-coupler"/>
+                    <body name="robotiq_2f_85_right_follower" pos="0 0.0376 0.043">
+                      <inertial pos="0 0 0.055" quat="0.707107 0.707107 0 0" mass="0.2" diaginertia="0.000380833 0.000380833 0.00036"/>
+                      <joint name="robotiq_2f_85_right_follower_joint" pos="0 0 0" axis="1 0 0" range="-2.96706 2.96706"/>
+                      <geom type="mesh" mesh="robotiq-2f-follower"/>
+                      <geom type="mesh" mesh="robotiq-2f-pad"/>
+                    </body>
+                  </body>
+                  <body name="robotiq_2f_85_right_spring_link" pos="0 0.012 0.0614">
+                    <inertial pos="0 0 0.055" quat="0.707107 0.707107 0 0" mass="0.1" diaginertia="0.000190833 0.000190833 0.00018"/>
+                    <joint name="robotiq_2f_85_right_spring_link_joint" pos="0 0 0" axis="1 0 0" range="-2.96706 2.96706"/>
+                    <geom type="mesh" mesh="robotiq-2f-spring_link"/>
+                  </body>
+                  <body name="robotiq_2f_85_left_driver" pos="0 -0.0306011 0.054904" quat="0 0 0 1">
+                    <inertial pos="0 0.01575 0.05295" quat="0.738425 0.674335 0 0" mass="0.2" diaginertia="0.00043212 0.000431866 0.000360253"/>
+                    <joint name="robotiq_2f_85_left_driver_joint" pos="0 0 0" axis="1 0 0" range="0 0.834"/>
+                    <geom type="mesh" mesh="robotiq-2f-driver"/>
+                    <geom pos="0 0.0315 -0.0041" type="mesh" mesh="robotiq-2f-coupler"/>
+                    <body name="robotiq_2f_85_left_follower" pos="0 0.0376 0.043">
+                      <inertial pos="0 0 0.055" quat="0.707107 0.707107 0 0" mass="0.2" diaginertia="0.000380833 0.000380833 0.00036"/>
+                      <joint name="robotiq_2f_85_left_follower_joint" pos="0 0 0" axis="1 0 0" range="-2.96706 2.96706"/>
+                      <geom type="mesh" mesh="robotiq-2f-follower"/>
+                      <geom type="mesh" mesh="robotiq-2f-pad"/>
+                    </body>
+                  </body>
+                  <body name="robotiq_2f_85_left_spring_link" pos="0 -0.012 0.0614" quat="0 0 0 1">
+                    <inertial pos="0 0 0.055" quat="0.707107 0.707107 0 0" mass="0.1" diaginertia="0.000190833 0.000190833 0.00018"/>
+                    <joint name="robotiq_2f_85_left_spring_link_joint" pos="0 0 0" axis="1 0 0" range="-2.96706 2.96706"/>
+                    <geom type="mesh" mesh="robotiq-2f-spring_link"/>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+   <actuator>
+        <motor name="A1"       gear="1"  joint="A1"/>
+        <motor name="A2"       gear="1"  joint="A2"/>
+        <motor name="A3"       gear="1"  joint="A3"/>
+        <motor name="A4"       gear="1"  joint="A4"/>
+        <motor name="A5"       gear="1"  joint="A5"/>
+        <motor name="A6"       gear="1"  joint="A6"/>
+        <motor name="A7"       gear="1"  joint="A7"/>
+        <motor name="robotiq_2f_85_right_driver_joint"       gear="1"  joint="robotiq_2f_85_right_driver_joint"/>
+        <motor name="robotiq_2f_85_right_follower_joint"       gear="1"  joint="robotiq_2f_85_right_follower_joint"/>
+        <motor name="robotiq_2f_85_right_spring_link_joint"       gear="1"  joint="robotiq_2f_85_right_spring_link_joint"/>
+        <motor name="robotiq_2f_85_left_driver_joint"       gear="1"  joint="robotiq_2f_85_left_driver_joint"/>
+        <motor name="robotiq_2f_85_left_follower_joint"       gear="1"  joint="robotiq_2f_85_left_follower_joint"/>
+        <motor name="robotiq_2f_85_left_spring_link_joint"       gear="1"  joint="robotiq_2f_85_left_spring_link_joint"/>
+    </actuator>
+</mujoco>
