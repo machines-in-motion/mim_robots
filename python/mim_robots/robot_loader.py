@@ -40,10 +40,8 @@ def load_bullet_wrapper(robot_name):
 
     try:
         if(robot_name == 'iiwa'):
-            from . robots.kuka.pinbullet.config import IiwaConfig
-            config = IiwaConfig()
-            robot = config.buildRobotWrapper()
-        return robot
+            from . robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
+        return IiwaRobot()
     except:
         print("Robot description not support for pybullet")
 

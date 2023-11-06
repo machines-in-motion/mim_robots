@@ -108,7 +108,7 @@ class BulletEnvWithGround(BulletEnv):
         super().__init__(server, dt)
         with importlib_resources.path(__package__, "env.py") as p:
             package_dir = p.parent.absolute()
-        plane_urdf = str("plane_with_restitution.urdf")
+        plane_urdf = str(package_dir / "plane_with_restitution.urdf")
         self.add_object_from_urdf(plane_urdf)
 
     """Sets friction coefficients of the env. floor
