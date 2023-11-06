@@ -3,125 +3,82 @@
 ## Author : Avadesh Meduri
 ## Date : 29/11/2022
 
-import pathlib
-import pinocchio as pin
-import mujoco
-
-import os
 import importlib
 from importlib import import_module  # type: ignore
 import importlib_resources
+from . robot_list import MiM_Robots
+
+from robot_descriptions.loaders.pinocchio import load_robot_description
 
 
-# TODO: MOVE THESE TO A YAML FILE
-mim_robots = ["iiwa", "iiwa_ft_sensor_shell", "iiwa_ft_sensor_ball", "iiwa_gripper", "teststand", "trifinger0", "trifinger1", "trifinger2"]
-
-def find_mim_paths(robot_name: str):
+def load_mujoco_model(robot_name: str):
+    """
+        Returns mujoco model
+        Input:
+            robot_name : the name of the robot you want to load
+    """ 
     try:
-        with importlib.resources.path(__package__, "robot_loader.py") as p:
-            package_path = p.parent.absolute()
-    except: # compatibility for Python < 3.7
-        with importlib_resources.path(__package__, "robot_loader.py") as p:
-            package_path = p.parent.absolute()
-    resources_path = str(package_path) + '/robots/'
-    mesh_dir = resources_path
-
-    if robot_name == "iiwa":
-        xml_path = str(resources_path) + 'kuka/kuka.xml'   
-        urdf_model_path = str(resources_path) + "kuka/kuka.urdf"
-
-    elif robot_name == "iiwa_gripper":
-        xml_path = str(resources_path) + 'kuka/kuka_gripper.xml'   
-        urdf_model_path = str(resources_path) + "kuka/kuka_gripper.urdf"
-
-    elif robot_name == "trifinger0":
-        xml_path = str(resources_path) + 'trifinger/nyu_finger_triple0.xml'   
-        urdf_model_path = str(resources_path) + "trifinger/nyu_finger_triple0.urdf"
-
-    elif robot_name == "trifinger1":
-        xml_path = str(resources_path) + 'trifinger/nyu_finger_triple1.xml'   
-        urdf_model_path = str(resources_path) + "trifinger/nyu_finger_triple1.urdf"
-
-    elif robot_name == "trifinger2":
-        xml_path = str(resources_path) + 'trifinger/nyu_finger_triple2.xml'   
-        urdf_model_path = str(resources_path) + "trifinger/nyu_finger_triple2.urdf"
-
-    elif robot_name == "teststand":
-        xml_path = str(resources_path) + 'teststand/teststand.xml'   
-        urdf_model_path = str(resources_path) + "teststand/teststand.urdf"
-
-    return xml_path, urdf_model_path, mesh_dir
-
-def load_robot(xml_path, urdf_path, mesh_dir):
+        import mujoco
+        from robot_descriptions.loaders.mujoco import load_robot_description
+    except Exception as e: print(e)
     
-    pin_robot = None
-    mjmodel = None
-
-    if urdf_path:
+    try:
+        RobotInfo = MiM_Robots[robot_name]
+        mjmodel = mujoco.MjModel.from_xml_path(RobotInfo.xml_path)
+    except:
         try:
-            pin_robot = pin.RobotWrapper.BuildFromURDF(
-                                                filename=urdf_path,
-                                                package_dirs=mesh_dir,
-                                                root_joint=None,
-                                                )
-        except:
-            print("Error: something wrong with urdf")
-            pin_robot = None
-        
-    if xml_path:
-        mjmodel = mujoco.MjModel.from_xml_path(xml_path)
-
-    return pin_robot, mjmodel
+            mj_name = robot_name + "_mj_description"
+            return load_robot_description(mj_name)
+        except Exception as e: print("No ROBOT", e)
 
 
 def load_bullet_wrapper(robot_name):
-    if(robot_name == 'iiwa'):
-        from mim_robot.robots.kuka.pinbullet.config import Iiwaconfig
-        config = Iiwaconfig()
-        robot = config.buildRobotWrapper()
-    else:
-        pass
-    return robot
+    try:
+        import pybullet
+        from robot_descriptions.loaders.pybullet import load_robot_description
+    except Exception as e: print(e)
 
-def MiMRobotLoader(robot_name: str):
+    try:
+        if(robot_name == 'iiwa'):
+            from . robots.kuka.pinbullet.config import IiwaConfig
+            config = IiwaConfig()
+            robot = config.buildRobotWrapper()
+        return robot
+    except:
+        print("Robot description not support for pybullet")
+
+def load_pinocchio_wrapper(robot_name: str):
     """
+    Returns pinocchio wrapper model
     Input:
         robot_name : the name of the robot you want to load
-    Output:
-        pinocchio robot wrapper, mujoco xml_path
     """
-    
-  
-    if robot_name in mim_robots:
-        xml_path, urdf_model_path, mesh_dir = find_mim_paths(robot_name)
-        pin_robot, mjmodel = load_robot(xml_path, urdf_model_path, mesh_dir)
+    try:
+        import pinocchio as pin
+    except Exception as e: print(e)
 
-    else:
-
+    try:
+        RobotInfo = MiM_Robots[robot_name]
         try:
-            mj_name = robot_name + "_mj_description"
-            mjmodule = import_module(f"robot_descriptions.{mj_name}")
-            MJCF_PATH = mjmodule.MJCF_PATH
-        except ModuleNotFoundError:
-            print("Error: Mujoco Robot description not found ...")
-            MJCF_PATH = None
-        try:
+            if not RobotInfo.fixed_base:
+                return pin.RobotWrapper.BuildFromURDF(
+                                            filename=RobotInfo.urdf_path,
+                                            package_dirs=RobotInfo.mesh_dir,
+                                            root_joint=None,
+                                            )
+            else:
+                return pin.RobotWrapper.BuildFromURDF(
+                                            RobotInfo.urdf_path,
+                                            RobotInfo.mesh_dir,
+                                            pin.JointModelFreeFlyer()
+                                            )
+        except Exception as e: print("ERROR in URDF:", e)
+    except:
+        try:  
             pin_name = robot_name + "_description"
-            module = import_module(f"robot_descriptions.{pin_name}")
-            package_dirs = [
-                module.PACKAGE_PATH,
-                module.REPOSITORY_PATH,
-                os.path.dirname(module.PACKAGE_PATH),
-                os.path.dirname(module.REPOSITORY_PATH),
-                os.path.dirname(module.URDF_PATH), 
-            ]
-            URDF_PATH = module.URDF_PATH
-        except ModuleNotFoundError:
-            print("Error: Pinocchio Robot description not found ...")
-            URDF_PATH = None
-            package_dirs = None
+            print(pin_name)
+            return load_robot_description(pin_name)
+        except Exception as e: print("No ROBOT", e)
 
-        pin_robot, mjmodel = load_robot(MJCF_PATH, URDF_PATH, package_dirs)
+
         
-    return pin_robot, mjmodel 
-

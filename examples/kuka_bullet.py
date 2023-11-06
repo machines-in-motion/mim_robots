@@ -1,5 +1,15 @@
-from mim_robot.robots.kuka.pinbullet.config import Iiwaconfig
+import pathlib
+import os
+python_path = pathlib.Path('.').absolute().parent/'python'
+os.sys.path.insert(1, str(python_path))
 
-config = Iiwaconfig()
+from mim_robots.robot_loader import load_pinocchio_wrapper, load_bullet_wrapper
+from mim_robots.pybullet.env import BulletEnvWithGround
 
-robot = config.buildRobotWrapper()
+
+env = BulletEnvWithGround()
+# robot = load_bullet_wrapper("iiwa")
+# env.add_robot(robot)
+
+for i in range(10000):
+    env.step()
