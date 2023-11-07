@@ -4,6 +4,13 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="KUKAiiwa14" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <mujoco>
+    <compiler 
+    meshdir="../meshes/kuka" 
+    balanceinertia="false" 
+    discardvisual="true"
+    convexhull="false" />
+  </mujoco>
   <material name="Black">
     <color rgba="0.0 0.0 0.0 1.0"/>
   </material>

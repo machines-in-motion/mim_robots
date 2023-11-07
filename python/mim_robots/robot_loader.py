@@ -10,6 +10,14 @@ from . robot_list import MiM_Robots
 
 from robot_descriptions.loaders.pinocchio import load_robot_description
 
+def get_robot_list():
+    """
+        Returns the list of robots available
+    """    
+    print("The list of available robots are : \n")
+    for robot_name in MiM_Robots.keys():
+        print(robot_name + ": " + MiM_Robots[robot_name].description)
+
 
 def load_mujoco_model(robot_name: str):
     """
@@ -24,7 +32,9 @@ def load_mujoco_model(robot_name: str):
     
     try:
         RobotInfo = MiM_Robots[robot_name]
-        return mujoco.MjModel.from_xml_path(RobotInfo.xml_path)
+        try:
+            return mujoco.MjModel.from_xml_path(RobotInfo.xml_path)
+        except Exception as e: print(e)    
     except:
         try:
             mj_name = robot_name + "_mj_description"

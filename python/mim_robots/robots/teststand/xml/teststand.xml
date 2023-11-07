@@ -12,8 +12,9 @@
     <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
   </asset>
   <worldbody>
-  <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
-  <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+    <light pos="1 0 1.5" dir="0 0 -1" directional="true"/>
+    <light pos="-1 0 1.5" dir="0 0 -1" directional="true"/>
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
     <body name="base_link" pos="0 0 0.4">
       <inertial pos="0 0 0.05" quat="0.5 0.5 0.5 0.5" mass="0.485" diaginertia="0.00202083 0.00202083 0.000808333"/>
       <joint name="joint_z" pos="0 0 0" axis="0 0 1" type="slide" range="-10 10"/>
@@ -33,8 +34,7 @@
   </worldbody>
 
   <actuator>
-      <motor name="joint_z"       gear="1"  joint="joint_z"/>
-      <motor name="HFE"       gear="1"  joint="HFE"/>
-      <motor name="KFE"       gear="1"  joint="KFE"/>
+      <motor name="HFE"       gear="9"  joint="HFE"/>
+      <motor name="KFE"       gear="9"  joint="KFE"/>
     </actuator>
 </mujoco>
