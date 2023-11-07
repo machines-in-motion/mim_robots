@@ -5,5 +5,8 @@ os.sys.path.insert(1, str(python_path))
 
 from mim_robots.robot_loader import load_pinocchio_wrapper
 
+robot = load_pinocchio_wrapper("teststand")
 load_pinocchio_wrapper("iiwa")
-# load_pinocchio_wrapper("cassie")
+load_pinocchio_wrapper("cassie")
+
+

@@ -8,10 +8,16 @@ Copyright note valid unless otherwise stated in individual files.
 All rights reserved.
 """
 
+import pathlib
+import os
+python_path = pathlib.Path('.').absolute().parent/'python'
+os.sys.path.insert(1, str(python_path))
+
+
 import numpy as np
 import pybullet 
-from bullet_utils.wrapper import PinBulletWrapper
-from robot_properties_kuka.config import IiwaConfig
+from mim_robots.pybullet.wrapper import PinBulletWrapper
+from . config import IiwaConfig
 
 dt = 1e-3
 
