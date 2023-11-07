@@ -1,22 +1,20 @@
 ## mim_robots
 
-This repository contains robot descriptions that are used in the machines in motion lab. It also contains APIs that can use the robot descriptions directly to create mujoco simulations. This code base will also contain dynamic_graph_head related API's in the future to enable 
-easy sim2real robot transfer of code. 
+This repository contains robot descriptions that are used in the Machines in Motion lab. It also contains APIs that can use the robot descriptions directly to create Mujoco or PyBullet simulations. This code base also contains dynamic_graph_manager configuration YAML files to enable easy transfer to real hardware.
 
 ## Dependencies
 1. robot_descriptions - ```pip install robot_descriptions```
 2. Mujoco - ```pip install mujoco```
+3. PyBullet - ```pip install pybullet```
 
 ## Code Infrastructure
 
 ### MiMRobotLoader 
 This robot loader is interfaced with robot_descriptions. The robot loader uses the custom urdf and xml files for robots that are in the 
-machines in motion labs. For other robots it utilizes robot_descriptions to download the necessary files. The MiMRobotLoader returns the pinocchio 
-robot object (which contains model, data, collision_model ...) and the xml_path of the xml file of the robot. 
+machines in motion labs. For other robots it utilizes robot_descriptions to download the necessary files. The MiMRobotLoader returns the pinocchio robot object (which contains model, data, collision_model ...) and the xml_path of the xml file of the robot. 
 
 ### Mujoco Env
-The mujoc env class provides APIs to easily add robots, primitive objects (boxes), lights, cameras and use the mujoco simulator. This class is 
-interfaced with the MiMRobotLoader. 
+The mujoc env class provides APIs to easily add robots, primitive objects (boxes), lights, cameras and use the mujoco simulator. This class is interfaced with the MiMRobotLoader. 
 
 ### Robot Envs 
 These are specific case envs that are created based on previous project use cases. Feel free to add more envs so that they can be reused by others. 
@@ -30,6 +28,7 @@ Each robot env should only contain information regarding the robots to be loaded
 
 1. Avadesh Meduri
 2. Huaijiang Zhu
+3. Sébastien Kleff
 
 ## Copyrights
 
