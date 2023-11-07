@@ -41,7 +41,7 @@ class Solo12Robot(PinBulletWrapper):
 
         # Load the robot
         if pos is None:
-            pos = [0.0, 0, 0.40]
+            pos = [0.0, 0, 1.80]
         if orn is None:
             orn = pybullet.getQuaternionFromEuler([0, 0, 0])
 
@@ -50,7 +50,7 @@ class Solo12Robot(PinBulletWrapper):
             pos,
             orn,
             flags=pybullet.URDF_USE_INERTIA_FROM_FILE,
-            useFixedBase=robotinfo.fixed_base,
+            useFixedBase= robotinfo.fixed_base,
         )
         pybullet.getBasePositionAndOrientation(self.robotId)
 
@@ -109,6 +109,7 @@ class Solo12Robot(PinBulletWrapper):
             self.pin_robot,
             controlled_joints,
             ["FL_ANKLE", "FR_ANKLE", "HL_ANKLE", "HR_ANKLE"],
+            useFixedBase=robotinfo.fixed_base
         )
 
     def forward_robot(self, q=None, dq=None):

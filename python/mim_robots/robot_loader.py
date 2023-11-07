@@ -97,7 +97,6 @@ def load_pinocchio_wrapper(robot_name: str):
                                             root_joint=None,
                                             )
             else:
-                print("yes")
                 return pin.RobotWrapper.BuildFromURDF(
                                             RobotInfo.urdf_path,
                                             RobotInfo.mesh_dir,
