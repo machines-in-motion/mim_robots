@@ -8,7 +8,7 @@ import mujoco.viewer
 import time
 from mim_robots.robot_loader import load_mujoco_model
 
-model = load_mujoco_model("a1")
+model = load_mujoco_model("iiwa")
 data = mujoco.MjData(model)
 
 

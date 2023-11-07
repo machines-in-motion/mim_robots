@@ -22,14 +22,14 @@ def load_mujoco_model(robot_name: str):
         from robot_descriptions.loaders.mujoco import load_robot_description
     except Exception as e: print(e)
     
-    try:
-        RobotInfo = MiM_Robots[robot_name]
-        return mujoco.MjModel.from_xml_path(RobotInfo.xml_path)
-    except:
-        try:
-            mj_name = robot_name + "_mj_description"
-            return load_robot_description(mj_name)
-        except Exception as e: print("No ROBOT", e)
+    # try:
+    RobotInfo = MiM_Robots[robot_name]
+    return mujoco.MjModel.from_xml_path(RobotInfo.urdf_path)
+    # except:
+    #     try:
+    #         mj_name = robot_name + "_mj_description"
+    #         return load_robot_description(mj_name)
+    #     except Exception as e: print("No ROBOT", e)
 
 
 def load_bullet_wrapper(robot_name):
@@ -38,22 +38,22 @@ def load_bullet_wrapper(robot_name):
         from robot_descriptions.loaders.pybullet import load_robot_description
     except Exception as e: print(e)
 
-    try:
-        if(robot_name == 'iiwa'):
-            from . robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
-            return IiwaRobot()
-        elif(robot_name == 'teststand'):
-            from . robots.teststand.pinbullet.teststand_wrapper import TeststandRobot
-            robot = TeststandRobot(MiM_Robots["teststand"])
-            return robot
-        else:
-            assert False
-    except:
-        try:
-            name = robot_name + "_description"
-            return load_robot_description(name)
-        except:
-            print("Robot description not support for pybullet")
+    # try:
+    if(robot_name == 'iiwa'):
+        from . robots.kuka.pinbullet.iiwaWrapper import IiwaRobot, IiwaConfig
+        return IiwaRobot(IiwaConfig())
+    elif(robot_name == 'teststand'):
+        from . robots.teststand.pinbullet.teststand_wrapper import TeststandRobot
+        robot = TeststandRobot(MiM_Robots["teststand"])
+        return robot
+    else:
+        assert False
+    # except:
+    #     try:
+    #         name = robot_name + "_description"
+    #         return load_robot_description(name)
+    #     except:
+    #         print("Robot description not support for pybullet")
 
 def load_pinocchio_wrapper(robot_name: str):
     """
