@@ -10,6 +10,9 @@ from . robot_list import MiM_Robots
 
 from robot_descriptions.loaders.pinocchio import load_robot_description
 
+def get_robot_list():
+    print(MiM_Robots.keys())
+
 
 def load_mujoco_model(robot_name: str):
     """
