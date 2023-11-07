@@ -2,8 +2,7 @@
 
 import sys
 from os import path, walk
-from setuptools import setup
-
+from setuptools import setup, find_packages
 
 def print_error(*args, **kwargs):
     """ Print in stderr. """
@@ -14,7 +13,7 @@ def find_resources(package_name):
     """ Find the relative path of files under the resource folder. """
     resources = []
     package_dir = path.join("python", package_name)
-    resources_dir = path.join(package_dir, "robots")
+    resources_dir = package_dir 
 
     for (root, _, files) in walk(resources_dir):
         for afile in files:
@@ -52,7 +51,7 @@ setup(
     name=package_name,
     version="1.0.0",
     package_dir={package_name: path.join("python", package_name)},
-    packages=[package_name],
+    packages=[package_name] + [package_name + '.' + pkg for pkg in find_packages(path.join("python", package_name))], 
     package_data={package_name: resources},
     install_requires=[
         "setuptools",
