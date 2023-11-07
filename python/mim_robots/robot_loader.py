@@ -22,14 +22,14 @@ def load_mujoco_model(robot_name: str):
         from robot_descriptions.loaders.mujoco import load_robot_description
     except Exception as e: print(e)
     
-    # try:
-    RobotInfo = MiM_Robots[robot_name]
-    return mujoco.MjModel.from_xml_path(RobotInfo.xml_path)
-    # except:
-    #     try:
-    #         mj_name = robot_name + "_mj_description"
-    #         return load_robot_description(mj_name)
-    #     except Exception as e: print("No ROBOT", e)
+    try:
+        RobotInfo = MiM_Robots[robot_name]
+        return mujoco.MjModel.from_xml_path(RobotInfo.xml_path)
+    except:
+        try:
+            mj_name = robot_name + "_mj_description"
+            return load_robot_description(mj_name)
+        except Exception as e: print("No ROBOT", e)
 
 
 def load_bullet_wrapper(robot_name):
