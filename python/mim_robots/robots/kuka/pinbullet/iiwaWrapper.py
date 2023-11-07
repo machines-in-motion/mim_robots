@@ -16,8 +16,10 @@ class IiwaRobot(PinBulletWrapper):
     '''
     Pinocchio-PyBullet wrapper class for the KUKA LWR iiwa 
     '''
-    def __init__(self, robotinfo, controlled_joints=["A1", "A2", "A3", "A4", "A5", "A6", "A7"], qref=np.zeros(7), pos=None, orn=None): 
+    def __init__(self, robotinfo, controlled_joints, qref=np.zeros(7), pos=None, orn=None): 
 
+        if controlled_joints == None:
+            controlled_joints = ["A1", "A2", "A3", "A4", "A5", "A6", "A7"]
         # Load the robot
         if pos is None:
             pos = [0.0, 0, 0.0]
