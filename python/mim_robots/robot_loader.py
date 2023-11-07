@@ -40,10 +40,10 @@ def load_bullet_wrapper(robot_name):
 
     try:
         if(robot_name == 'iiwa'):
-            from . robots.kuka.pinbullet.iiwaWrapper import IiwaRobot, IiwaConfig
+            from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot, IiwaConfig
             return IiwaRobot(IiwaConfig())
         elif(robot_name == 'teststand'):
-            from . robots.teststand.pinbullet.teststand_wrapper import TeststandRobot
+            from mim_robots.robots.teststand.pinbullet.teststand_wrapper import TeststandRobot
             robot = TeststandRobot(MiM_Robots["teststand"])
             return robot
         else:

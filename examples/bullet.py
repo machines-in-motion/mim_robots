@@ -1,7 +1,3 @@
-import pathlib
-import os
-python_path = pathlib.Path('.').absolute().parent/'python'
-os.sys.path.insert(1, str(python_path))
 import pybullet as p
 
 from mim_robots.robot_loader import load_bullet_wrapper

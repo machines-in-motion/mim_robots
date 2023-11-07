@@ -1,8 +1,3 @@
-import pathlib
-import os
-python_path = pathlib.Path('.').absolute().parent/'python'
-os.sys.path.insert(1, str(python_path))
-
 import mujoco
 import mujoco.viewer
 import time
