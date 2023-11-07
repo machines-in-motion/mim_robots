@@ -4,17 +4,16 @@ This repository contains robot descriptions that are used in the Machines in Mot
 
 ## Dependencies
 1. robot_descriptions - ```pip install robot_descriptions```
-2. Mujoco - ```pip install mujoco```
-3. PyBullet - ```pip install pybullet```
+2. pinocchio - ```pip install pinocchio``` 
+3. Mujoco - ```pip install mujoco```
+4. PyBullet - ```pip install pybullet```
 
 ## Code Infrastructure
+The 3 files in the example directory show how to use the package to load models for pinocchio, mujoco and pybullet. 
 
 ### MiMRobotLoader 
 This robot loader is interfaced with robot_descriptions. The robot loader uses the custom urdf and xml files for robots that are in the 
 machines in motion labs. For other robots it utilizes robot_descriptions to download the necessary files. The MiMRobotLoader returns the pinocchio robot object (which contains model, data, collision_model ...) and the xml_path of the xml file of the robot. 
-
-### Mujoco Env
-The mujoc env class provides APIs to easily add robots, primitive objects (boxes), lights, cameras and use the mujoco simulator. This class is interfaced with the MiMRobotLoader. 
 
 ### Robot Envs 
 These are specific case envs that are created based on previous project use cases. Feel free to add more envs so that they can be reused by others. 
