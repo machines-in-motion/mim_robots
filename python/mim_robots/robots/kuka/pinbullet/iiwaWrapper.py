@@ -1,32 +1,23 @@
 """iiwawrapper
-
-Solo8 pybullet interface using pinocchio's convention.
-
+Iiwa pybullet interface using pinocchio's convention.
 License: BSD 3-Clause License
 Copyright (C) 2018-2019, New York University , Max Planck Gesellschaft
 Copyright note valid unless otherwise stated in individual files.
 All rights reserved.
 """
-
-import pathlib
-import os
-python_path = pathlib.Path('.').absolute().parent/'python'
-os.sys.path.insert(1, str(python_path))
-
-
-import numpy as np
 import pybullet 
 from mim_robots.pybullet.wrapper import PinBulletWrapper
-from . config import IiwaConfig
+import pinocchio as pin
+
+from mim_robots.robot_loader import load_pinocchio_wrapper
 
 dt = 1e-3
-
 
 class IiwaRobot(PinBulletWrapper):
     '''
     Pinocchio-PyBullet wrapper class for the KUKA LWR iiwa 
     '''
-    def __init__(self, config, pos=None, orn=None): 
+    def __init__(self, robotinfo, pos=None, orn=None): 
 
         # Load the robot
         if pos is None:
@@ -34,8 +25,8 @@ class IiwaRobot(PinBulletWrapper):
         if orn is None:
             orn = pybullet.getQuaternionFromEuler([0, 0, 0])
 
-        pybullet.setAdditionalSearchPath(config.meshes_path)
-        self.urdf_path = config.urdf_path
+        # pybullet.setAdditionalSearchPath(robotinfo.mesh_dir)
+        self.urdf_path = robotinfo.urdf_path
         self.robotId = pybullet.loadURDF(
             self.urdf_path,
             pos, orn,
@@ -44,7 +35,11 @@ class IiwaRobot(PinBulletWrapper):
         pybullet.getBasePositionAndOrientation(self.robotId)
         
         # Create the robot wrapper in pinocchio.
-        self.pin_robot = config.buildRobotWrapper()
+        self.pin_robot = pin.RobotWrapper.BuildFromURDF(
+                                            filename=robotinfo.urdf_path,
+                                            package_dirs=robotinfo.mesh_dir,
+                                            root_joint=None,
+                                            )
 
         # Query all the joints.
         num_joints = pybullet.getNumJoints(self.robotId)

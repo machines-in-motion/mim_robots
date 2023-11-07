@@ -13,9 +13,9 @@ import numpy as np
 import time
 import os
 import pybullet 
-from py_pinocchio_bullet.wrapper import PinBulletWrapper
-from robot_properties_kuka.config import IiwaConfig
-from robot_properties_kuka.utils import find_paths
+from mim_robots.pybullet.wrapper import PinBulletWrapper
+# from robot_properties_kuka.config import IiwaConfig
+# from robot_properties_kuka.utils import find_paths
 
 dt = 1e-3
 
@@ -28,7 +28,7 @@ class IiwaReducedRobot(PinBulletWrapper):
     '''
     Pinocchio-PyBullet wrapper class for the Iiwa
     '''
-    def __init__(self, controlled_joints, qref, pos=None, orn=None): 
+    def __init__(self, robotinfo, controlled_joints, qref, pos=None, orn=None): 
 
         # Load the robot
         if pos is None:
@@ -37,8 +37,8 @@ class IiwaReducedRobot(PinBulletWrapper):
             orn = pybullet.getQuaternionFromEuler([0, 0, 0])
 
         # Load full robot in PyBullet from urdf + mesh
-        pybullet.setAdditionalSearchPath(IiwaConfig.meshes_path)
-        self.urdf_path = IiwaConfig.urdf_path
+        pybullet.setAdditionalSearchPath(robotinfo.meshes_path)
+        self.urdf_path = robotinfo.urdf_path
         self.robotId = pybullet.loadURDF(
                 self.urdf_path,
                 pos, orn,
@@ -47,7 +47,11 @@ class IiwaReducedRobot(PinBulletWrapper):
         pybullet.getBasePositionAndOrientation(self.robotId)
         
         # Create the robot wrapper in pinocchio (full model)
-        robot_full = IiwaConfig.buildRobotWrapper()
+        robot_full = robotinfo.pin.RobotWrapper.BuildFromURDF(
+                                            filename=robotinfo.urdf_path,
+                                            package_dirs=robotinfo.mesh_dir,
+                                            root_joint=None,
+                                            )
         # Query all the joints.
         num_joints = pybullet.getNumJoints(self.robotId)
 

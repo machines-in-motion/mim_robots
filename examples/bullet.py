@@ -5,7 +5,7 @@ from mim_robots.pybullet.env import BulletEnvWithGround
 
 
 env = BulletEnvWithGround(p.GUI)
-robot = load_bullet_wrapper("solo12")
+robot = load_bullet_wrapper("iiwa_ft_sensor_ball")
 print(robot)
 env.add_robot(robot)
 
