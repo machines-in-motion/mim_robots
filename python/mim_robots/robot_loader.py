@@ -42,9 +42,18 @@ def load_bullet_wrapper(robot_name):
         if(robot_name == 'iiwa'):
             from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot, IiwaConfig
             return IiwaRobot(IiwaConfig())
+        elif(robot_name == 'iiwa_ft_sensor_shell'):
+            from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot, IiwaConfig
+            return IiwaRobot(IiwaConfig(end_eff='ft_sensor_shell'))
+        elif(robot_name == 'iiwa_ft_sensor_ball'):
+            from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot, IiwaConfig
+            return IiwaRobot(IiwaConfig(end_eff='ft_sensor_ball'))
         elif(robot_name == 'teststand'):
             from mim_robots.robots.teststand.pinbullet.teststand_wrapper import TeststandRobot
             robot = TeststandRobot(MiM_Robots["teststand"])
+        elif(robot_name == 'solo12'):
+            from mim_robots.robots.solo12.pinbullet.solo12wrapper import Solo12Robot
+            robot = Solo12Robot()
             return robot
         else:
             assert False

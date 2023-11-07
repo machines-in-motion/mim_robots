@@ -23,12 +23,25 @@ mesh_dir = resources_path
 MiM_Robots = {
 
     "teststand" : RobotInfo(resources_path + "teststand/urdf/teststand.urdf", \
-                    resources_path + "teststand/meshes/", \
-                    resources_path + "teststand/xml/teststand.xml", \
-                    True),
+                            resources_path + "teststand/meshes/", \
+                            resources_path + "teststand/xml/teststand.xml", \
+                            True),
     "iiwa" : RobotInfo(resources_path + "kuka/urdf/iiwa.urdf", \
-                    resources_path + "kuka/meshes/kuka", \
-                    None, True),
+                       resources_path + "kuka/meshes/kuka", \
+                       None, 
+                       True),
+    "iiwa_ft_sensor_shell" : RobotInfo(resources_path + "kuka/urdf/iiwa.urdf", \
+                                       resources_path + "kuka/meshes/kuka", \
+                                       None, 
+                                       True),
+    "iiwa_ft_sensor_ball" : RobotInfo(resources_path + "kuka/urdf/iiwa.urdf", \
+                                      resources_path + "kuka/meshes/kuka", \
+                                      None, 
+                                      True),
+    "solo12" : RobotInfo(resources_path + "solo12/urdf/solo12.urdf", \
+                         resources_path + "solo12/meshes", \
+                         None, 
+                         True),
 }
 
 
