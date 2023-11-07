@@ -66,7 +66,7 @@ def load_bullet_wrapper(robot_name, controlled_joints = None):
         robot = TeststandRobot(MiM_Robots["teststand"])
     elif(robot_name == 'solo12'):
         from mim_robots.robots.solo12.pinbullet.solo12wrapper import Solo12Robot
-        robot = Solo12Robot()
+        robot = Solo12Robot(MiM_Robots["solo12"])
         return robot
     else:
         assert False
@@ -90,13 +90,14 @@ def load_pinocchio_wrapper(robot_name: str):
     try:
         RobotInfo = MiM_Robots[robot_name]
         try:
-            if not RobotInfo.fixed_base:
+            if RobotInfo.fixed_base:
                 return pin.RobotWrapper.BuildFromURDF(
                                             filename=RobotInfo.urdf_path,
                                             package_dirs=RobotInfo.mesh_dir,
                                             root_joint=None,
                                             )
             else:
+                print("yes")
                 return pin.RobotWrapper.BuildFromURDF(
                                             RobotInfo.urdf_path,
                                             RobotInfo.mesh_dir,

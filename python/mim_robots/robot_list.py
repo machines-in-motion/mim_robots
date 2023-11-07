@@ -57,8 +57,8 @@ MiM_Robots = {
                     "12 Degree of freedom quadruped robot",
                     resources_path + "solo12/urdf/solo12.urdf", \
                     resources_path + "solo12", \
-                    None, 
-                    True),
+                    resources_path + "solo12/xml/solo12.xml", 
+                    False),
 }
 
 

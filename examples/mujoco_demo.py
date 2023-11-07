@@ -5,7 +5,7 @@ from mim_robots.robot_loader import load_mujoco_model, get_robot_list
 
 print(get_robot_list())
 
-model = load_mujoco_model("teststand")
+model = load_mujoco_model("solo12")
 # model = load_mujoco_model("iiwa")
 # model = load_mujoco_model("iiwa_ft_sensor_ball")
 data = mujoco.MjData(model)
