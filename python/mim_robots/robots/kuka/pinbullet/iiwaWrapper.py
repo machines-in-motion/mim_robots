@@ -20,7 +20,7 @@ class IiwaRobot(PinBulletWrapper):
     '''
     Pinocchio-PyBullet wrapper class for the KUKA LWR iiwa 
     '''
-    def __init__(self, pos=None, orn=None): 
+    def __init__(self, config, pos=None, orn=None): 
 
         # Load the robot
         if pos is None:
@@ -28,8 +28,8 @@ class IiwaRobot(PinBulletWrapper):
         if orn is None:
             orn = pybullet.getQuaternionFromEuler([0, 0, 0])
 
-        pybullet.setAdditionalSearchPath(IiwaConfig.meshes_path)
-        self.urdf_path = IiwaConfig.urdf_path
+        pybullet.setAdditionalSearchPath(config.meshes_path)
+        self.urdf_path = config.urdf_path
         self.robotId = pybullet.loadURDF(
             self.urdf_path,
             pos, orn,
@@ -38,7 +38,7 @@ class IiwaRobot(PinBulletWrapper):
         pybullet.getBasePositionAndOrientation(self.robotId)
         
         # Create the robot wrapper in pinocchio.
-        self.pin_robot = IiwaConfig.buildRobotWrapper()
+        self.pin_robot = config.buildRobotWrapper()
 
         # Query all the joints.
         num_joints = pybullet.getNumJoints(self.robotId)

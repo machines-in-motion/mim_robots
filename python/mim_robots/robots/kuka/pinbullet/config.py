@@ -17,7 +17,7 @@ from robot_properties_kuka.utils import find_paths
 class KukaAbstract(object):
     """ Abstract class for KUKA robots """
 
-    @classmethod
+    # @classmethod
     def buildRobotWrapper(cls):
         # Rebuild the robot wrapper instead of using the existing model to
         # also load the visuals.
@@ -36,68 +36,72 @@ class IiwaConfig(KukaAbstract):
     '''
     Config class for the KUKA LWR iiwa
     '''
-    robot_family = "kuka"   
-    robot_name = "iiwa"
+    def __init__(self, end_eff=None): 
+        '''
+        end_eff must be in ['ft_sensor_shell', 'ft_sensor_ball', None]
+        '''
+        self.robot_family = "kuka"   
+        self.robot_name = "iiwa"
 
-    paths = find_paths(robot_name, end_eff='ft_sensor_shell') # ft_sensor_shell
-    meshes_path = paths["package"]
-    yaml_path = paths["dgm_yaml"]
-    urdf_path = paths["urdf"]
-    
-    # Pinocchio model.
-    robot_model = se3.buildModelFromUrdf(urdf_path)
+        self.paths = find_paths(self.robot_name, end_eff=end_eff) 
+        self.meshes_path = self.paths["package"]
+        self.yaml_path = self.paths["dgm_yaml"]
+        self.urdf_path = self.paths["urdf"]
+        
+        # Pinocchio model.
+        self.robot_model = se3.buildModelFromUrdf(self.urdf_path)
 
-    mass = np.sum([i.mass for i in robot_model.inertias])
+        self.mass = np.sum([i.mass for i in self.robot_model.inertias])
 
-    base_name = robot_model.frames[2].name
+        self.base_name = self.robot_model.frames[2].name
 
-    # The number of motors, here they are the same as there are only revolute
-    # joints.
-    nb_joints = robot_model.nv
+        # The number of motors, here they are the same as there are only revolute
+        # joints.
+        self.nb_joints = self.robot_model.nv
 
-    joint_names = [ "A1",
-                    "A2",
-                    "A3",
-                    "A4",
-                    "A5",
-                    "A6",
-                    "A7" ]
+        self.joint_names = [ "A1",
+                        "A2",
+                        "A3",
+                        "A4",
+                        "A5",
+                        "A6",
+                        "A7" ]
 
-    end_effector_names = ["contact"]
+        self.end_effector_names = ["contact"]
 
-    # Mapping between the ctrl vector in the device and the urdf indexes.
-    urdf_to_dgm = tuple(range(robot_model.nv))
+        # Mapping between the ctrl vector in the device and the urdf indexes.
+        self.urdf_to_dgm = tuple(range(self.robot_model.nv))
 
-    map_joint_name_to_id = {}
-    map_joint_limits = {}
-    for i, (name, lb, ub) in enumerate(
-        zip(
-            robot_model.names[1:],
-            robot_model.lowerPositionLimit,
-            robot_model.upperPositionLimit,
-        )
-    ):
-        map_joint_name_to_id[name] = i
-        map_joint_limits[i] = [float(lb), float(ub)]
+        self.map_joint_name_to_id = {}
+        self.map_joint_limits = {}
+        for i, (name, lb, ub) in enumerate(
+            zip(
+                self.robot_model.names[1:],
+                self.robot_model.lowerPositionLimit,
+                self.robot_model.upperPositionLimit,
+            )
+        ):
+            self.map_joint_name_to_id[name] = i
+            self.map_joint_limits[i] = [float(lb), float(ub)]
 
-    # Define the initial state.
-    initial_configuration = [0.]*robot_model.nq
-    initial_velocity = [0.]*robot_model.nv
+        # Define the initial state.
+        self.initial_configuration = [0.]*self.robot_model.nq
+        self.initial_velocity = [0.]*self.robot_model.nv
 
-    q0 = zero(robot_model.nq)
-    q0[:] = initial_configuration
-    v0 = zero(robot_model.nv)
-    a0 = zero(robot_model.nv)
+        self.q0 = zero(self.robot_model.nq)
+        self.q0[:] = self.initial_configuration
+        self.v0 = zero(self.robot_model.nv)
+        self.a0 = zero(self.robot_model.nv)
 
-    # In case there is an ft sensor with custom mount piece :
-    # Get the name of the piece to which the CAD origin is attached
-    # This can be used to compute the sensor frame placement w.r.t. parent joint
-    if('shell' in urdf_path):
-        cad_origin_name = 'assembled_ee'
-    elif('ball' in urdf_path):
-        cad_origin_name = 'kuka_to_sensor_mount'
-    else:
-        pass
+        # In case there is an ft sensor with custom mount piece :
+        # Get the name of the piece to which the CAD origin is attached
+        # This can be used to compute the sensor frame placement w.r.t. parent joint
+        if('shell' in self.urdf_path):
+            self.cad_origin_name = 'assembled_ee'
+        elif('ball' in self.urdf_path):
+            self.cad_origin_name = 'kuka_to_sensor_mount'
+        else:
+            pass
 
 class IiwaReducedConfig(IiwaConfig):
     '''
