@@ -1,0 +1,35 @@
+is_real_robot: true
+device:
+  name: "iiwa"
+  sensors:
+    timestamp:
+      size: 1
+    joint_positions:
+      size: 7
+    joint_velocities:
+      size: 7
+    joint_accelerations:
+      size: 7
+    joint_torques_external:
+      size: 7
+    joint_torques_total:
+      size: 7
+    ft_sensor_wrench:
+      size: 6
+    joint_torques_commanded:
+      size: 7
+  controls:
+    ctrl_joint_torques:
+      size: 7
+    time_sent:
+      size: 1
+    desired_joint_positions:
+      size: 7
+hardware_communication:
+  max_missed_control: 10
+  control_period: 1000000 # in nano second
+  maximum_time_for_user_cmd: 100000
+  shared_memory_name: "DGM_ShM"
+#debug_timer_history_length: 10000
+host: "192.170.10.1"
+port: 30200
