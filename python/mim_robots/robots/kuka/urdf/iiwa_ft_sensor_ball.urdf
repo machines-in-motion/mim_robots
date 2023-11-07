@@ -4,6 +4,13 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="KUKAiiwa14" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <mujoco>
+    <compiler 
+    meshdir="../meshes/kuka" 
+    balanceinertia="false" 
+    discardvisual="true"
+    convexhull="false" />
+  </mujoco>
   <material name="Black">
     <color rgba="0.0 0.0 0.0 1.0"/>
   </material>
@@ -441,7 +448,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://robot_properties_kuka/meshes/obj/5674K57_flange_mount_ball_transfer.obj" scale="0.0254 0.0254 0.0254"/>
+        <mesh filename="package://robot_properties_kuka/meshes/5674K57_flange_mount_ball_transfer.stl" scale="0.0254 0.0254 0.0254"/>
       </geometry>
       <material name="grey">
         <color rgba="0.8 0.8 0.8 1.0"/>
@@ -450,7 +457,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://robot_properties_kuka/meshes/obj/5674K57_flange_mount_ball_transfer.obj" scale="0.0254 0.0254 0.0254"/>
+        <mesh filename="package://robot_properties_kuka/meshes/5674K57_flange_mount_ball_transfer.stl" scale="0.0254 0.0254 0.0254"/>
       </geometry>
       <material name="grey">
         <color rgba="0.8 0.8 0.8 1.0"/>

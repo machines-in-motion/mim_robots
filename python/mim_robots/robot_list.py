@@ -28,7 +28,16 @@ MiM_Robots = {
                     True),
     "iiwa" : RobotInfo(resources_path + "kuka/urdf/iiwa.urdf", \
                     resources_path + "kuka/meshes/kuka", \
-                    None, True),
+                    resources_path + "kuka/xml/iiwa.xml", \
+                    True),
+    "iiwa_ft_sensor_shell" : RobotInfo(resources_path + "kuka/urdf/iiwa_ft_sensor_shell.urdf", \
+                    resources_path + "kuka/meshes/kuka", \
+                    resources_path + "kuka/xml/iiwa_ft_sensor_shell.xml", \
+                    True),
+    "iiwa_ft_sensor_ball" : RobotInfo(resources_path + "kuka/urdf/iiwa_ft_sensor_ball.urdf", \
+                    resources_path + "kuka/meshes/kuka", \
+                    resources_path + "kuka/xml/iiwa_ft_sensor_ball.xml", \
+                    True),
 }
 
 
