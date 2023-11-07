@@ -10,8 +10,9 @@ All rights reserved.
 import numpy as np
 import pybullet
 
-from bullet_utils.wrapper import PinBulletWrapper
-from robot_properties_solo.config import Solo12Config
+from mim_robots.pybullet.wrapper import PinBulletWrapper
+import pinocchio as pin
+from mim_robots.robot_loader import load_pinocchio_wrapper
 
 dt = 1e-3
 
@@ -19,34 +20,42 @@ dt = 1e-3
 class Solo12Robot(PinBulletWrapper):
     def __init__(
         self,
+        robotinfo, 
         pos=None,
         orn=None,
-        useFixedBase=False,
         init_sliders_pose=4
         * [
             0,
         ],
     ):
 
+        self.initial_configuration = (
+                    [0.2, 0.0, 0.25, 0.0, 0.0, 0.0, 1.0]
+                    + 2 * [0.0, 0.8, -1.6]
+                    + 2 * [0.0, -0.8, 1.6]
+                    )
+        
+        self.initial_velocity = (8 + 4 + 6) * [
+            0,
+        ]
+
         # Load the robot
         if pos is None:
-            pos = [0.0, 0, 0.40]
+            pos = [0.0, 0, 1.80]
         if orn is None:
             orn = pybullet.getQuaternionFromEuler([0, 0, 0])
 
-        pybullet.setAdditionalSearchPath(Solo12Config.resources.package_path)
-        self.urdf_path = Solo12Config.urdf_path
         self.robotId = pybullet.loadURDF(
-            self.urdf_path,
+            robotinfo.urdf_path,
             pos,
             orn,
             flags=pybullet.URDF_USE_INERTIA_FROM_FILE,
-            useFixedBase=useFixedBase,
+            useFixedBase= robotinfo.fixed_base,
         )
         pybullet.getBasePositionAndOrientation(self.robotId)
 
         # Create the robot wrapper in pinocchio.
-        self.pin_robot = Solo12Config.buildRobotWrapper()
+        self.pin_robot = load_pinocchio_wrapper("solo12")  
 
         # Query all the joints.
         num_joints = pybullet.getNumJoints(self.robotId)
@@ -100,6 +109,7 @@ class Solo12Robot(PinBulletWrapper):
             self.pin_robot,
             controlled_joints,
             ["FL_ANKLE", "FR_ANKLE", "HL_ANKLE", "HR_ANKLE"],
+            useFixedBase=robotinfo.fixed_base
         )
 
     def forward_robot(self, q=None, dq=None):
@@ -129,19 +139,29 @@ class Solo12Robot(PinBulletWrapper):
 
     def reset_to_initial_state(self) -> None:
         """Reset robot state to the initial configuration (based on Solo12Config)."""
-        q0 = np.matrix(Solo12Config.initial_configuration).T
-        dq0 = np.matrix(Solo12Config.initial_velocity).T
+        q0 = np.matrix(self.initial_configuration).T
+        dq0 = np.matrix(self.initial_velocity).T
         self.reset_state(q0, dq0)
+
 class Solo12RobotWithoutPybullet():
     """
     Similar to the class above, but without PyBullet. Used for ROS + Gazebo projects
     """
     def __init__(self):
 
-        self.urdf_path = Solo12Config.urdf_path
+
+        self.initial_configuration = (
+        [0.2, 0.0, 0.25, 0.0, 0.0, 0.0, 1.0]
+        + 2 * [0.0, 0.8, -1.6]
+        + 2 * [0.0, -0.8, 1.6]
+        )
+        
+        self.initial_velocity = (8 + 4 + 6) * [
+            0,
+        ]
 
         # Create the robot wrapper in pinocchio.
-        self.pin_robot = Solo12Config.buildRobotWrapper()
+        self.pin_robot = load_pinocchio_wrapper("solo12")  
 
         self.base_link_name = "base_link"
         self.end_eff_ids = []
@@ -176,8 +196,8 @@ class Solo12RobotWithoutPybullet():
 
     def reset_to_initial_state(self) -> None:
         """Reset robot state to the initial configuration (based on Solo12Config)."""
-        q0 = np.array(Solo12Config.initial_configuration)
-        dq0 = np.array(Solo12Config.initial_velocity)
+        q0 = np.array(self.initial_configuration)
+        dq0 = np.array(self.initial_velocity)
         self.reset_state(q0, dq0)
     
     def update_pinocchio(self, q, dq):

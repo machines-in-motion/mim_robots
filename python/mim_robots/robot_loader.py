@@ -42,7 +42,7 @@ def load_mujoco_model(robot_name: str):
         except Exception as e: print("No ROBOT", e)
 
 
-def load_bullet_wrapper(robot_name):
+def load_bullet_wrapper(robot_name, controlled_joints = None):
     try:
         import pybullet
         from robot_descriptions.loaders.pybullet import load_robot_description
@@ -51,22 +51,22 @@ def load_bullet_wrapper(robot_name):
     # try:
     if(robot_name == 'iiwa'):
         from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
-        return IiwaRobot(MiM_Robots["iiwa"])
+        return IiwaRobot(MiM_Robots["iiwa"], controlled_joints)
     elif(robot_name == 'iiwa_ft_sensor_shell'):
         from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
-        return IiwaRobot(MiM_Robots["iiwa_ft_sensor_shell"])
+        return IiwaRobot(MiM_Robots["iiwa_ft_sensor_shell"], controlled_joints)
     elif(robot_name == 'iiwa_ft_sensor_ball'):
         from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
-        return IiwaRobot(MiM_Robots["iiwa_ft_sensor_ball"])
+        return IiwaRobot(MiM_Robots["iiwa_ft_sensor_ball"], controlled_joints)
     elif(robot_name == 'iiwa_gripper'):
         from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
-        return IiwaRobot(MiM_Robots["iiwa_gripper"])
+        return IiwaRobot(MiM_Robots["iiwa_gripper"], controlled_joints)
     elif(robot_name == 'teststand'):
         from mim_robots.robots.teststand.pinbullet.teststand_wrapper import TeststandRobot
         robot = TeststandRobot(MiM_Robots["teststand"])
     elif(robot_name == 'solo12'):
         from mim_robots.robots.solo12.pinbullet.solo12wrapper import Solo12Robot
-        robot = Solo12Robot()
+        robot = Solo12Robot(MiM_Robots["solo12"])
         return robot
     else:
         assert False
@@ -90,7 +90,7 @@ def load_pinocchio_wrapper(robot_name: str):
     try:
         RobotInfo = MiM_Robots[robot_name]
         try:
-            if not RobotInfo.fixed_base:
+            if RobotInfo.fixed_base:
                 return pin.RobotWrapper.BuildFromURDF(
                                             filename=RobotInfo.urdf_path,
                                             package_dirs=RobotInfo.mesh_dir,
