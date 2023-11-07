@@ -11,7 +11,12 @@ from . robot_list import MiM_Robots
 from robot_descriptions.loaders.pinocchio import load_robot_description
 
 def get_robot_list():
-    print(MiM_Robots.keys())
+    """
+        Returns the list of robots available
+    """    
+    print("The list of available robots are : \n")
+    for robot_name in MiM_Robots.keys():
+        print(robot_name + ": " + MiM_Robots[robot_name].description)
 
 
 def load_mujoco_model(robot_name: str):
