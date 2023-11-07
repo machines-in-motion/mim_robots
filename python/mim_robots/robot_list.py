@@ -26,7 +26,7 @@ MiM_Robots = {
     "teststand" : RobotInfo(
                     "2 Degree of Freedom Hopper",
                     resources_path + "teststand/urdf/teststand.urdf", \
-                    resources_path + "teststand/meshes/", \
+                    resources_path + "teststand", \
                     resources_path + "teststand/xml/teststand.xml", \
                     True),
     "iiwa" : RobotInfo(
@@ -56,7 +56,7 @@ MiM_Robots = {
     "solo12" : RobotInfo(
                     "12 Degree of freedom quadruped robot",
                     resources_path + "solo12/urdf/solo12.urdf", \
-                    resources_path + "solo12/meshes", \
+                    resources_path + "solo12", \
                     None, 
                     True),
 }

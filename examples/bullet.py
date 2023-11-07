@@ -5,7 +5,8 @@ from mim_robots.pybullet.env import BulletEnvWithGround
 
 
 env = BulletEnvWithGround(p.GUI)
-robot = load_bullet_wrapper("iiwa", controlled_joints =  ["A1", "A3", "A4", "A5",  "A7"])
+# robot = load_bullet_wrapper("iiwa", controlled_joints =  ["A1", "A3", "A4", "A5",  "A7"])
+robot = load_bullet_wrapper("solo12")
 print(robot)
 env.add_robot(robot)
 
