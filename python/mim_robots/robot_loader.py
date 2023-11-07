@@ -58,6 +58,9 @@ def load_bullet_wrapper(robot_name):
     elif(robot_name == 'iiwa_ft_sensor_ball'):
         from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
         return IiwaRobot(MiM_Robots["iiwa_ft_sensor_ball"])
+    elif(robot_name == 'iiwa_gripper'):
+        from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
+        return IiwaRobot(MiM_Robots["iiwa_gripper"])
     elif(robot_name == 'teststand'):
         from mim_robots.robots.teststand.pinbullet.teststand_wrapper import TeststandRobot
         robot = TeststandRobot(MiM_Robots["teststand"])
