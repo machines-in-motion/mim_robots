@@ -32,20 +32,26 @@ MiM_Robots = {
     "iiwa" : RobotInfo(
                     "Kuka IIWA LBR robot - 7 DoF",
                     resources_path + "kuka/urdf/iiwa.urdf", \
-                    resources_path + "kuka/meshes/kuka", \
+                    resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa.xml", \
                     True),
     "iiwa_ft_sensor_shell" : RobotInfo(
                     "Kuka IIWA LBR robot - 7 DoF with the force torque sensor shell at the tip",
                     resources_path + "kuka/urdf/iiwa_ft_sensor_shell.urdf", \
-                    resources_path + "kuka/meshes/kuka", \
+                    resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa_ft_sensor_shell.xml", \
                     True),
     "iiwa_ft_sensor_ball" : RobotInfo(
                     "Kuka IIWA LBR robot - 7 DoF with the force torque sensor shell at the tip with a ball",
                     resources_path + "kuka/urdf/iiwa_ft_sensor_ball.urdf", \
-                    resources_path + "kuka/meshes/kuka", \
+                    resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa_ft_sensor_ball.xml", \
+                    True),
+    "iiwa_gripper" : RobotInfo(
+                    "Kuka IIWA LBR robot - 7 DoF with gripper",
+                    resources_path + "kuka/urdf/iiwa_gripper.urdf", \
+                    resources_path + "kuka", \
+                    resources_path + "kuka/xml/iiwa_gripper.xml", \
                     True),
     "solo12" : RobotInfo(
                     "12 Degree of freedom quadruped robot",
