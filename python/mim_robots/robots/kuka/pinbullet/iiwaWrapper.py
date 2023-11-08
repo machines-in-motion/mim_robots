@@ -9,6 +9,7 @@ import pybullet
 from mim_robots.pybullet.wrapper import PinBulletWrapper
 import pinocchio as pin
 import numpy as np
+from mim_robots.robot_loader import load_pinocchio_wrapper
 
 dt = 1e-3
 
@@ -35,12 +36,13 @@ class IiwaRobot(PinBulletWrapper):
         pybullet.getBasePositionAndOrientation(self.robotId)
         
         # Create the robot wrapper in pinocchio.
-        robot_full = pin.RobotWrapper.BuildFromURDF(
-                                            filename=robotinfo.urdf_path,
-                                            package_dirs=robotinfo.mesh_dir,
-                                            root_joint=None,
-                                            )
-
+        # robot_full = pin.RobotWrapper.BuildFromURDF(
+        #                                     filename=robotinfo.urdf_path,
+        #                                     package_dirs=robotinfo.mesh_dir,
+        #                                     root_joint=None,
+        #                                     )
+        robot_full = load_pinocchio_wrapper(robotinfo.name)
+        
         # Query all the joints.
         num_joints = pybullet.getNumJoints(self.robotId)
 
