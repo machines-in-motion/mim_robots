@@ -5,6 +5,7 @@ import importlib.resources
 @dataclass
 class RobotInfo:
     name : str
+    nq: int
     description : str
     urdf_path : str
     mesh_dir : str
@@ -26,6 +27,7 @@ MiM_Robots = {
 
     "teststand" : RobotInfo(
                     "teststand",
+                    2, \
                     "2 Degree of Freedom Hopper", \
                     resources_path + "teststand/urdf/teststand.urdf", \
                     resources_path + "teststand", \
@@ -33,6 +35,7 @@ MiM_Robots = {
                     True),
     "iiwa" : RobotInfo(
                     "iiwa", 
+                    7, \
                     "Kuka IIWA LBR robot - 7 DoF", \
                     resources_path + "kuka/urdf/iiwa.urdf", \
                     resources_path + "kuka", \
@@ -40,6 +43,7 @@ MiM_Robots = {
                     True),
     "iiwa_ft_sensor_shell" : RobotInfo(
                     "iiwa_ft_sensor_shell", 
+                    7, \
                     "Kuka IIWA LBR robot - 7 DoF with the force torque sensor shell at the tip", \
                     resources_path + "kuka/urdf/iiwa_ft_sensor_shell.urdf", \
                     resources_path + "kuka", \
@@ -47,6 +51,7 @@ MiM_Robots = {
                     True),
     "iiwa_ft_sensor_ball" : RobotInfo(
                     "iiwa_ft_sensor_ball", 
+                    7, \
                     "Kuka IIWA LBR robot - 7 DoF with the force torque sensor shell at the tip with a ball", \
                     resources_path + "kuka/urdf/iiwa_ft_sensor_ball.urdf", \
                     resources_path + "kuka", \
@@ -54,6 +59,7 @@ MiM_Robots = {
                     True),
     "iiwa_gripper" : RobotInfo(
                     "iiwa_gripper", 
+                    13, \
                     "Kuka IIWA LBR robot - 7 DoF with gripper", \
                     resources_path + "kuka/urdf/iiwa_gripper.urdf", \
                     resources_path + "kuka", \
@@ -61,6 +67,7 @@ MiM_Robots = {
                     True),
     "solo12" : RobotInfo(
                     "solo12",
+                    12,
                     "12 Degree of freedom quadruped robot", \
                     resources_path + "solo12/urdf/solo12.urdf", \
                     resources_path + "solo12", \
