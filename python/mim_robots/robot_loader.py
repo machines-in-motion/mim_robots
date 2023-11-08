@@ -3,10 +3,8 @@
 ## Author : Avadesh Meduri
 ## Date : 29/11/2022
 
-import importlib
-from importlib import import_module  # type: ignore
-import importlib_resources
 from . robot_list import MiM_Robots
+import numpy as np
 
 from robot_descriptions.loaders.pinocchio import load_robot_description
 
@@ -105,7 +103,6 @@ def load_pinocchio_wrapper(robot_name: str, locked_joints = None):
             if(locked_joints is None):
                 return full_robot
             else:
-                import numpy as np
                 locked_joints_ids = []
                 for joint_name in locked_joints:
                     locked_joints_ids.append(full_robot.model.getJointId(joint_name))
