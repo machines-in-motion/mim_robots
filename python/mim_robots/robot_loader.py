@@ -66,7 +66,7 @@ def load_bullet_wrapper(robot_name, locked_joints = None):
         robot = TeststandRobot(MiM_Robots["teststand"])
     elif(robot_name == 'solo12'):
         from mim_robots.robots.solo12.pinbullet.solo12wrapper import Solo12Robot
-        robot = Solo12Robot(MiM_Robots["solo12"])
+        robot = Solo12Robot(MiM_Robots["solo12"], locked_joints)
         return robot
     else:
         assert False
