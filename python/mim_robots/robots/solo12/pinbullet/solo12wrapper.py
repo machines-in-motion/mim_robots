@@ -21,6 +21,8 @@ class Solo12Robot(PinBulletWrapper):
     def __init__(
         self,
         robotinfo, 
+        locked_joints_names=None, 
+        qref=np.zeros(19),
         pos=None,
         orn=None,
         init_sliders_pose=4
@@ -55,7 +57,8 @@ class Solo12Robot(PinBulletWrapper):
         pybullet.getBasePositionAndOrientation(self.robotId)
 
         # Create the robot wrapper in pinocchio.
-        self.pin_robot = load_pinocchio_wrapper("solo12")  
+        # self.pin_robot = load_pinocchio_wrapper("solo12")  
+        robot_full = load_pinocchio_wrapper("solo12")  
 
         # Query all the joints.
         num_joints = pybullet.getNumJoints(self.robotId)
@@ -70,6 +73,7 @@ class Solo12Robot(PinBulletWrapper):
                 lateralFriction=0.5,
             )
 
+
         self.slider_a = pybullet.addUserDebugParameter(
             "a", 0, 1, init_sliders_pose[0]
         )
@@ -83,19 +87,27 @@ class Solo12Robot(PinBulletWrapper):
             "d", 0, 1, init_sliders_pose[3]
         )
 
+        # List actuated joints
+        actuated_joints_names = []
+        for leg in ["FL", "FR", "HL", "HR"]:
+            actuated_joints_names += [leg + "_HAA", leg + "_HFE", leg + "_KFE"]
+        # Optionally reduce the model
+        if(locked_joints_names is not None):
+            self.pin_robot, controlled_joints_names = self.freeze_joints(locked_joints_names, robot_full, qref, actuated_joints_names)
+        else:
+            controlled_joints_names = actuated_joints_names
+            self.pin_robot = robot_full
+
         self.base_link_name = "base_link"
         self.end_eff_ids = []
         self.end_effector_names = []
-        controlled_joints = []
 
+        # List end eff names and ids 
         for leg in ["FL", "FR", "HL", "HR"]:
-            controlled_joints += [leg + "_HAA", leg + "_HFE", leg + "_KFE"]
-            self.end_eff_ids.append(
-                self.pin_robot.model.getFrameId(leg + "_FOOT")
-            )
+            self.end_eff_ids.append(self.pin_robot.model.getFrameId(leg + "_FOOT"))
             self.end_effector_names.append(leg + "_FOOT")
 
-        self.joint_names = controlled_joints
+        self.joint_names = controlled_joints_names
         self.nb_ee = len(self.end_effector_names)
 
         self.hl_index = self.pin_robot.model.getFrameId("HL_ANKLE")
@@ -107,7 +119,7 @@ class Solo12Robot(PinBulletWrapper):
         super(Solo12Robot, self).__init__(
             self.robotId,
             self.pin_robot,
-            controlled_joints,
+            controlled_joints_names,
             ["FL_ANKLE", "FR_ANKLE", "HL_ANKLE", "HR_ANKLE"],
             useFixedBase=robotinfo.fixed_base
         )

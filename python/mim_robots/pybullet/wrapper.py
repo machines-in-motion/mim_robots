@@ -122,7 +122,7 @@ class PinBulletWrapper(object):
         self.contact_status = np.zeros(self.nb_contacts)
         self.contact_forces = np.zeros([self.nb_contacts, 6])
 
-    def freeze_joints(self, locked_joints_names, robot_full, qref):
+    def freeze_joints(self, locked_joints_names, robot_full, qref, actuated_joints_names = None):
         '''
         Freeze specified joint names of the pinocchio model in PyBullet
         by setting them to position control in reference configuration
@@ -130,10 +130,16 @@ class PinBulletWrapper(object):
           locked_joints_names (:obj:`list` of :obj:`str`): Joints names to lock
           robot_full (:obj:'Pinocchio.RobotWrapper') : pinocchio wrapper of the full model 
           qref: Reference (full) configuration used to lock the specified joints
+          controllable_joints_names (:obj:`list` of :obj:`str`): Joints names that can be controlled
         Returns 
           robot_reduced (:obj:'Pinocchio.RobotWrapper') : pinocchio wrapper of the reduced model 
-          controlled_joints_names (:obj:`list` of :obj:`str`): Joints names that are torque-controlled
+          controlled_joints_names (:obj:`list` of :obj:`str`): Joints names that are actuated (None = fully actuated)
         '''
+        # for jn in locked_joints_names:
+        #     try:
+        #         assert( jn in actuated_joints_names)
+        #     except:
+        #         print('Error: joints to lock must be torque-controllable joints !')        
         # Fetch locked joint ids (i.e. position-controlled in PyBullet)
         locked_joints_ids = []
         for joint_name in locked_joints_names:
@@ -160,9 +166,10 @@ class PinBulletWrapper(object):
         bullet_joint_map = {}
         for ji in range(pybullet.getNumJoints(self.robotId)):
             bullet_joint_map[pybullet.getJointInfo(self.robotId, ji)[1].decode("UTF-8")] = ji
-        # Get bullet ids of locked joints + subconfig
-        if('root_joint' in locked_joints_names):
-            locked_joints_names.remove('root_joint') # base treated in sim
+        # Remove root from controlled joints 
+        if('root_joint' in controlled_joints_names):
+            controlled_joints_names.remove('root_joint') # base treated in sim
+        # Get bullet ids of locked joints 
         locked_joint_ids_bullet = np.array([bullet_joint_map[name] for name in locked_joints_names])
         qref_locked = [qref_locked_map[joint_name] for joint_name in locked_joints_names]
         # Lock the uncontrolled joints in position control in PyBullet multibody (full robot)
@@ -174,7 +181,12 @@ class PinBulletWrapper(object):
                                         controlMode = pybullet.POSITION_CONTROL,
                                         targetPositions = qref_locked,
                                         targetVelocities = np.zeros(len(locked_joint_ids_bullet)))
-
+        if(actuated_joints_names is not None):
+            for jn in controlled_joints_names:
+                try:
+                    assert( jn in actuated_joints_names)
+                except:
+                    print('Error: controlled joints must be actuated !')  
         return robot_reduced, controlled_joints_names
 
     def get_force(self):
