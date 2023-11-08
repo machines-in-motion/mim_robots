@@ -4,6 +4,7 @@ import importlib.resources
 
 @dataclass
 class RobotInfo:
+    name : str
     description : str
     urdf_path : str
     mesh_dir : str
@@ -24,37 +25,43 @@ mesh_dir = resources_path
 MiM_Robots = {
 
     "teststand" : RobotInfo(
-                    "2 Degree of Freedom Hopper",
+                    "teststand",
+                    "2 Degree of Freedom Hopper", \
                     resources_path + "teststand/urdf/teststand.urdf", \
                     resources_path + "teststand", \
                     resources_path + "teststand/xml/teststand.xml", \
                     True),
     "iiwa" : RobotInfo(
-                    "Kuka IIWA LBR robot - 7 DoF",
+                    "iiwa", 
+                    "Kuka IIWA LBR robot - 7 DoF", \
                     resources_path + "kuka/urdf/iiwa.urdf", \
                     resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa.xml", \
                     True),
     "iiwa_ft_sensor_shell" : RobotInfo(
-                    "Kuka IIWA LBR robot - 7 DoF with the force torque sensor shell at the tip",
+                    "iiwa_ft_sensor_shell", 
+                    "Kuka IIWA LBR robot - 7 DoF with the force torque sensor shell at the tip", \
                     resources_path + "kuka/urdf/iiwa_ft_sensor_shell.urdf", \
                     resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa_ft_sensor_shell.xml", \
                     True),
     "iiwa_ft_sensor_ball" : RobotInfo(
-                    "Kuka IIWA LBR robot - 7 DoF with the force torque sensor shell at the tip with a ball",
+                    "iiwa_ft_sensor_ball", 
+                    "Kuka IIWA LBR robot - 7 DoF with the force torque sensor shell at the tip with a ball", \
                     resources_path + "kuka/urdf/iiwa_ft_sensor_ball.urdf", \
                     resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa_ft_sensor_ball.xml", \
                     True),
     "iiwa_gripper" : RobotInfo(
-                    "Kuka IIWA LBR robot - 7 DoF with gripper",
+                    "iiwa_gripper", 
+                    "Kuka IIWA LBR robot - 7 DoF with gripper", \
                     resources_path + "kuka/urdf/iiwa_gripper.urdf", \
                     resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa_gripper.xml", \
                     True),
     "solo12" : RobotInfo(
-                    "12 Degree of freedom quadruped robot",
+                    "solo12",
+                    "12 Degree of freedom quadruped robot", \
                     resources_path + "solo12/urdf/solo12.urdf", \
                     resources_path + "solo12", \
                     resources_path + "solo12/xml/solo12.xml", 

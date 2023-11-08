@@ -14,7 +14,7 @@ import numpy as np
 from numpy.random import default_rng
 from time import sleep
 from pinocchio.utils import zero
-
+import pinocchio as pin
 
 class PinBulletWrapper(object):
     """[summary]
@@ -121,6 +121,61 @@ class PinBulletWrapper(object):
         self.nb_contacts = len(self.pinocchio_endeff_ids)
         self.contact_status = np.zeros(self.nb_contacts)
         self.contact_forces = np.zeros([self.nb_contacts, 6])
+
+    def freeze_joints(self, locked_joints_names, robot_full, qref):
+        '''
+        Freeze specified joint names of the pinocchio model in PyBullet
+        by setting them to position control in reference configuration
+        Args:
+          locked_joints_names (:obj:`list` of :obj:`str`): Joints names to lock
+          robot_full (:obj:'Pinocchio.RobotWrapper') : pinocchio wrapper of the full model 
+          qref: Reference (full) configuration used to lock the specified joints
+        Returns 
+          robot_reduced (:obj:'Pinocchio.RobotWrapper') : pinocchio wrapper of the reduced model 
+          controlled_joints_names (:obj:`list` of :obj:`str`): Joints names that are torque-controlled
+        '''
+        # Fetch locked joint ids (i.e. position-controlled in PyBullet)
+        locked_joints_ids = []
+        for joint_name in locked_joints_names:
+            locked_joints_ids.append(robot_full.model.getJointId(joint_name))
+        # Fetch torque-controlled joint names 
+        controlled_joints_names = [] 
+        for joint_name in robot_full.model.names[1:]:
+            if(joint_name not in locked_joints_names):
+                controlled_joints_names.append(joint_name)        
+        # Build reduced model with reference posture for locked joints
+        # Retain locked joints reference position for later
+        qref_locked_map = {}
+        for joint_name in locked_joints_names:
+            idx = robot_full.model.getJointId(joint_name)-1
+            qref_locked_map[joint_name] = qref[idx]
+        # Make reduced model and wrapper
+        reduced_model, [visual_model, collision_model] = pin.buildReducedModel(robot_full.model, 
+                                                                        [robot_full.visual_model, robot_full.collision_model], 
+                                                                        locked_joints_ids, 
+                                                                        qref)   
+        robot_reduced = pin.robot_wrapper.RobotWrapper(reduced_model, collision_model, visual_model)  
+
+        # Get bullet map joint_name<->bullet_index
+        bullet_joint_map = {}
+        for ji in range(pybullet.getNumJoints(self.robotId)):
+            bullet_joint_map[pybullet.getJointInfo(self.robotId, ji)[1].decode("UTF-8")] = ji
+        # Get bullet ids of locked joints + subconfig
+        if('root_joint' in locked_joints_names):
+            locked_joints_names.remove('root_joint') # base treated in sim
+        locked_joint_ids_bullet = np.array([bullet_joint_map[name] for name in locked_joints_names])
+        qref_locked = [qref_locked_map[joint_name] for joint_name in locked_joints_names]
+        # Lock the uncontrolled joints in position control in PyBullet multibody (full robot)
+        for joint_name in locked_joints_names:
+            # print("joint name : " + joint_name + " , bullet joint id = ", bullet_joint_map[joint_name])
+            pybullet.resetJointState(self.robotId, bullet_joint_map[joint_name], qref_locked_map[joint_name], 0.)
+        pybullet.setJointMotorControlArray(self.robotId, 
+                                        jointIndices = locked_joint_ids_bullet, 
+                                        controlMode = pybullet.POSITION_CONTROL,
+                                        targetPositions = qref_locked,
+                                        targetVelocities = np.zeros(len(locked_joint_ids_bullet)))
+
+        return robot_reduced, controlled_joints_names
 
     def get_force(self):
         """Returns the force readings as well as the set of active contacts
