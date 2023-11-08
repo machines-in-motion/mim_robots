@@ -17,10 +17,8 @@ class IiwaRobot(PinBulletWrapper):
     '''
     Pinocchio-PyBullet wrapper class for the KUKA LWR iiwa 
     '''
-    def __init__(self, robotinfo, controlled_joints, qref=np.zeros(7), pos=None, orn=None): 
+    def __init__(self, robotinfo, locked_joints_names=None, qref=np.zeros(7), pos=None, orn=None): 
 
-        if controlled_joints == None:
-            controlled_joints = ["A1", "A2", "A3", "A4", "A5", "A6", "A7"]
         # Load the robot
         if pos is None:
             pos = [0.0, 0, 0.0]
@@ -36,11 +34,6 @@ class IiwaRobot(PinBulletWrapper):
         pybullet.getBasePositionAndOrientation(self.robotId)
         
         # Create the robot wrapper in pinocchio.
-        # robot_full = pin.RobotWrapper.BuildFromURDF(
-        #                                     filename=robotinfo.urdf_path,
-        #                                     package_dirs=robotinfo.mesh_dir,
-        #                                     root_joint=None,
-        #                                     )
         robot_full = load_pinocchio_wrapper(robotinfo.name)
         
         # Query all the joints.
@@ -55,53 +48,8 @@ class IiwaRobot(PinBulletWrapper):
                                     lateralFriction=0.5)
             
         # Optionally reduce the model
-        if(len(controlled_joints) < 7):
-            # Optionally reduce the model (freeze joints)
-            controlled_joints_ids = []
-            for joint_name in controlled_joints:
-                controlled_joints_ids.append(robot_full.model.getJointId(joint_name))
-
-            # Joint names & pin ids to lock
-            uncontrolled_joints = [] 
-            for joint_name in robot_full.model.names[1:]:
-                if(joint_name not in controlled_joints):
-                    uncontrolled_joints.append(joint_name)
-            locked_joints_ids = [robot_full.model.getJointId(joint_name) for joint_name in uncontrolled_joints]
-            # print('Locked joints ids in pinocchio '+'('+str(len(locked_joints_ids))+') : ')
-            
-            # Build reduced model with ref posture for locked joints
-            # Retain locked joints reference position for later
-            qref_locked_map = {}
-            for joint_name in uncontrolled_joints:
-                idx = robot_full.model.getJointId(joint_name)-1
-                qref_locked_map[joint_name] = qref[idx]
-            # Make reduced model and wrapper
-            reduced_model, [visual_model, collision_model] = pin.buildReducedModel(robot_full.model, 
-                                                                                [robot_full.visual_model, robot_full.collision_model], 
-                                                                                locked_joints_ids, 
-                                                                                qref)   
-            self.pin_robot = pin.robot_wrapper.RobotWrapper(reduced_model, collision_model, visual_model)  
-            print("[pinbullet wrapper] REDUCED MODEL : ", self.pin_robot.model)
-
-            # Get bullet map joint_name<->bullet_index
-            bullet_joint_map = {}
-            for ji in range(pybullet.getNumJoints(self.robotId)):
-                bullet_joint_map[pybullet.getJointInfo(self.robotId, ji)[1].decode("UTF-8")] = ji
-            # Get bullet ids of locked joints + subconfig
-            if('root_joint' in uncontrolled_joints):
-                uncontrolled_joints.remove('root_joint') # base treated in sim
-            locked_joint_ids_bullet = np.array([bullet_joint_map[name] for name in uncontrolled_joints])
-            qref_locked = [qref_locked_map[joint_name] for joint_name in uncontrolled_joints]
-            # Lock the uncontrolled joints in position control in PyBullet multibody (full robot)
-            for joint_name in uncontrolled_joints:
-                # print("joint name : " + joint_name + " , bullet joint id = ", bullet_joint_map[joint_name])
-                pybullet.resetJointState(self.robotId, bullet_joint_map[joint_name], qref_locked_map[joint_name], 0.)
-            pybullet.setJointMotorControlArray(self.robotId, 
-                                            jointIndices = locked_joint_ids_bullet, 
-                                            controlMode = pybullet.POSITION_CONTROL,
-                                            targetPositions = qref_locked,
-                                            targetVelocities = np.zeros(len(locked_joint_ids_bullet)))
-        # Otherwise full robot
+        if(locked_joints_names is not None):
+            self.pin_robot, controlled_joints_names = self.freeze_joints(locked_joints_names, robot_full, qref)
         else:
             self.pin_robot = robot_full
 
@@ -109,13 +57,13 @@ class IiwaRobot(PinBulletWrapper):
         self.end_eff_ids = []
         self.end_eff_ids.append(self.pin_robot.model.getFrameId('contact'))
         self.nb_ee = len(self.end_eff_ids)
-        self.joint_names = controlled_joints
+        self.joint_names = controlled_joints_names
 
         # Creates the wrapper by calling the super.__init__.          
         super(IiwaRobot, self).__init__(
             self.robotId, 
             self.pin_robot,
-            controlled_joints,
+            controlled_joints_names,
             ['EE'],
             useFixedBase=robotinfo.fixed_base)
         self.nb_dof = self.nv
