@@ -52,7 +52,8 @@ class IiwaRobot(PinBulletWrapper):
             self.pin_robot, controlled_joints_names = self.freeze_joints(locked_joints_names, robot_full, qref)
         else:
             self.pin_robot = robot_full
-
+            controlled_joints_names = ["A1", "A2", "A3", "A4", "A5", "A6", "A7"]
+            
         self.base_link_name = "iiwa_base"
         self.end_eff_ids = []
         self.end_eff_ids.append(self.pin_robot.model.getFrameId('contact'))
