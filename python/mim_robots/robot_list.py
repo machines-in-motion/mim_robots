@@ -33,7 +33,7 @@ MiM_Robots = {
                     resources_path + "teststand/urdf/teststand.urdf", \
                     resources_path + "teststand", \
                     resources_path + "teststand/xml/teststand.xml", \
-                    resources_path + "dgm_parameters_teststand.yml", \
+                    resources_path + "teststand/dgm_parameters_teststand.yml", \
                     True),
     "iiwa" : RobotInfo(
                     "iiwa", 
@@ -42,7 +42,7 @@ MiM_Robots = {
                     resources_path + "kuka/urdf/iiwa.urdf", \
                     resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa.xml", \
-                    resources_path + "dgm_parameters_iiwa.yml", \
+                    resources_path + "kuka/dgm_parameters_iiwa.yml", \
                     True),
     "iiwa_ft_sensor_shell" : RobotInfo(
                     "iiwa_ft_sensor_shell", 
@@ -51,7 +51,7 @@ MiM_Robots = {
                     resources_path + "kuka/urdf/iiwa_ft_sensor_shell.urdf", \
                     resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa_ft_sensor_shell.xml", \
-                    resources_path + "dgm_parameters_iiwa.yml", \
+                    resources_path + "kuka/dgm_parameters_iiwa.yml", \
                     True),
     "iiwa_ft_sensor_ball" : RobotInfo(
                     "iiwa_ft_sensor_ball", 
@@ -60,7 +60,7 @@ MiM_Robots = {
                     resources_path + "kuka/urdf/iiwa_ft_sensor_ball.urdf", \
                     resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa_ft_sensor_ball.xml", \
-                    resources_path + "dgm_parameters_iiwa.yml", \
+                    resources_path + "kuka/dgm_parameters_iiwa.yml", \
                     True),
     "iiwa_gripper" : RobotInfo(
                     "iiwa_gripper", 
@@ -78,7 +78,7 @@ MiM_Robots = {
                     resources_path + "solo12/urdf/solo12.urdf", \
                     resources_path + "solo12", \
                     resources_path + "solo12/xml/solo12.xml", \
-                    resources_path + "dgm_parameters_solo12_nyu.yml", \
+                    resources_path + "solo12/dgm_parameters_solo12_nyu.yml", \
                     False),
 }
 
