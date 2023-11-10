@@ -1,0 +1,58 @@
+# 
+# @file dgm_parameters.yaml
+# @author Maximilien Naveau (maximilien.naveau@gmail.com)
+# @license License BSD-3-Clause
+# @copyright Copyright (c) 2019, New York University and Max Planck Gesellschaft.
+# @date 2019-05-22
+# 
+# @brief Define the interface between the control and the hardware
+# 
+
+# This defines the dynamic-graph device
+device:
+  name: "hopper_teststand"
+  sensors:
+    # joints data
+    joint_positions:
+      size: 2
+    joint_velocities:
+      size: 2
+    joint_torques:
+      size: 2
+    joint_target_torques:
+      size: 2
+    joint_encoder_index:
+      size: 2
+    # additional data
+    height_sensors:
+      size: 1
+    slider_positions:
+      size: 4
+    # robot status
+    motor_enabled:
+      size: 2
+    motor_ready:
+      size: 2
+    motor_board_enabled:
+      size: 1
+    motor_board_errors:
+      size: 1
+    
+  controls:
+    ctrl_joint_torques:
+      size: 2
+    ctrl_heart_beat:
+      size: 1
+# This defines the hardware control.
+hardware_communication:
+  network_id: "ens4f0"
+  max_missed_control: 10
+  control_period: 1000000 # in nano second this means 1ms <=> 1kz
+  maximum_time_for_user_cmd: 100000
+  shared_memory_name: "DGM_ShM"
+
+  ros_node_name: "teststand"
+  shared_memory_name: "DGM_ShM"
+  cpu_id: 0
+
+debug_timer_history_length: 0
