@@ -40,12 +40,6 @@ with open(
 # Find the resource files.
 resources = find_resources(package_name)
 
-# # Install nodes and demos.
-# scripts_list = []
-# for (root, _, files) in walk(path.join("examples")):
-#     for demo_file in files:
-#         scripts_list.append(path.join(root, demo_file))
-
 # Final setup.
 setup(
     name=package_name,
@@ -56,7 +50,9 @@ setup(
     install_requires=[
         "setuptools",
         "mujoco",
-        "pin",
+        "pinocchio",
+        "pybullet",
+        "robot_descriptions",
         "importlib_resources"
     ],
     zip_safe=True,

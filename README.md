@@ -3,10 +3,10 @@
 This repository contains robot descriptions that are used in the Machines in Motion lab. It also contains APIs that can use the robot descriptions directly to create Mujoco or PyBullet simulations. This code base also contains dynamic_graph_manager configuration YAML files to enable easy transfer to real hardware.
 
 ## Dependencies
-1. robot_descriptions - ```pip install robot_descriptions```
-2. [pinocchio](https://github.com/stack-of-tasks/pinocchio) 
-3. Mujoco - ```pip install mujoco```
-4. PyBullet - ```pip install pybullet```
+- [robot_description](https://github.com/robot-descriptions)
+- [pinocchio](https://github.com/stack-of-tasks/pinocchio) 
+- [Mujoco](https://mujoco.org/)
+- [PyBullet](https://pybullet.org/wordpress/)
 
 ## Code Infrastructure
 The 3 files in the example directory show how to use the package to load models for pinocchio, mujoco and pybullet. 
