@@ -4,7 +4,7 @@ This repository contains robot descriptions that are used in the Machines in Mot
 
 ## Dependencies
 1. robot_descriptions - ```pip install robot_descriptions```
-2. pinocchio - ```pip install pinocchio``` 
+2. [pinocchio](https://github.com/stack-of-tasks/pinocchio) 
 3. Mujoco - ```pip install mujoco```
 4. PyBullet - ```pip install pybullet```
 
@@ -31,7 +31,7 @@ Each robot env should only contain information regarding the robots to be loaded
 
 ## Copyrights
 
-Copyright(c) 2023 New York University
+Copyright(c) 2024 New York University
 
 ## License
 
