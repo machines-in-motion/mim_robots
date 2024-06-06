@@ -71,6 +71,15 @@ MiM_Robots = {
                     resources_path + "kuka/xml/iiwa_gripper.xml", \
                     None,
                     True),
+    "iiwa_convex" : RobotInfo(
+                    "iiwa_convex", 
+                    7, \
+                    "Kuka IIWA LBR robot - 7 DoF with the collision model convex. Can be used to avoid collisions.", \
+                    resources_path + "kuka/urdf/iiwa_convex.urdf", \
+                    resources_path + "kuka", \
+                    resources_path + "kuka/xml/iiwa.xml", \
+                    resources_path + "kuka/dgm_parameters_iiwa.yaml", \
+                    True),
     "solo12" : RobotInfo(
                     "solo12",
                     12,

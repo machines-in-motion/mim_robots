@@ -50,6 +50,9 @@ def load_bullet_wrapper(robot_name, locked_joints = None):
         if(robot_name == 'iiwa'):
             from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
             return IiwaRobot(MiM_Robots["iiwa"], locked_joints)
+        elif(robot_name == 'iiwa_convex'):
+            from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
+            return IiwaRobot(MiM_Robots["iiwa_convex"], locked_joints)
         elif(robot_name == 'iiwa_ft_sensor_shell'):
             from mim_robots.robots.kuka.pinbullet.iiwaWrapper import IiwaRobot
             return IiwaRobot(MiM_Robots["iiwa_ft_sensor_shell"], locked_joints)
