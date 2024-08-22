@@ -25,6 +25,8 @@ device:
       size: 1
     desired_joint_positions:
       size: 7
+    desired_joint_velocities:
+      size: 7
     joint_pd_active:
       size: 1
 hardware_communication:
