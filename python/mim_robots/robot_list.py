@@ -47,7 +47,7 @@ MiM_Robots = {
     "iiwa_ft_sensor_shell" : RobotInfo(
                     "iiwa_ft_sensor_shell", 
                     7, \
-                    "Kuka IIWA LBR robot - 7 DoF with the force torque sensor shell at the tip", \
+                    "Kuka IIWA LBR robot - 7 DoF with the force torque sensor + plastic shell at the tip", \
                     resources_path + "kuka/urdf/iiwa_ft_sensor_shell.urdf", \
                     resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa_ft_sensor_shell.xml", \
@@ -78,6 +78,15 @@ MiM_Robots = {
                     resources_path + "kuka/urdf/iiwa_convex.urdf", \
                     resources_path + "kuka", \
                     resources_path + "kuka/xml/iiwa.xml", \
+                    resources_path + "kuka/dgm_parameters_iiwa.yaml", \
+                    True),
+    "iiwa_convex_ft_sensor_shell" : RobotInfo(
+                    "iiwa_convex_ft_sensor_shell", 
+                    7, \
+                    "Kuka IIWA LBR robot - 7 DoF with the collision model convex and ft sensor + plastic shell at the tip. Can be used to avoid collisions.", \
+                    resources_path + "kuka/urdf/iiwa_convex_ft_sensor_shell.urdf", \
+                    resources_path + "kuka", \
+                    resources_path + "kuka/xml/iiwa_ft_sensor_shell.xml", \
                     resources_path + "kuka/dgm_parameters_iiwa.yaml", \
                     True),
     "solo12" : RobotInfo(
