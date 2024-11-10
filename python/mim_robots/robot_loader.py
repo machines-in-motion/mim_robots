@@ -6,7 +6,9 @@
 from . robot_list import MiM_Robots
 import numpy as np
 
-from robot_descriptions.loaders.pinocchio import load_robot_description
+try:
+    from robot_descriptions.loaders.pinocchio import load_robot_description
+except Exception as e: print(e)
 
 def get_robot_list():
     """
