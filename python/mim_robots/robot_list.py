@@ -107,4 +107,14 @@ MiM_Robots = {
         resources_path + "solo12/dgm_parameters_solo12_nyu.yaml",
         False,
     ),
+    "panda": RobotInfo(
+        "panda",
+        7,
+        "Franka Emika Panda robot - 7 DoF with the collision model convex and ft sensor + plastic shell at the tip. Can be used to avoid collisions.",
+        resources_path + "panda/urdf/model.urdf",
+        resources_path + "panda",
+        resources_path + "panda/xml/iiwa.xml",
+        resources_path + "panda/dgm_parameters_iiwa.yaml",
+        True,
+    ),
 }
