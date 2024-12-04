@@ -494,7 +494,7 @@
     <collision>
       <origin rpy="1.57 0 0" xyz="0 0.03 0"/>
       <geometry>
-        <cylinder radius="0.01" length="0.1"/>
+        <cylinder radius="0.06" length="0.3"/>
         <!-- <mesh filename="package://meshes/kuka/assembled_ee.stl" scale="0.001 0.001 0.001"/> -->
       </geometry>
       <material name="White">
