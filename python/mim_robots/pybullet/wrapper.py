@@ -81,6 +81,7 @@ class PinBulletWrapper(object):
             bullet_joint_map[
                 pybullet.getJointInfo(robot_id, ji)[1].decode("UTF-8")
             ] = ji
+            # print(pybullet.getJointInfo(robot_id, ji))
         self.bullet_joint_ids = np.array(
             [bullet_joint_map[name] for name in joint_names]
         )

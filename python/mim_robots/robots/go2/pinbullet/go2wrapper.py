@@ -123,7 +123,7 @@ class Go2Robot(PinBulletWrapper):
             self.robotId,
             self.pin_robot,
             controlled_joints_names,
-            ["FL_FOOT_joint", "FR_FOOT_joint", "HL_FOOT_joint", "HR_FOOT_joint", "Joint6"],
+            ["FL_FOOT_joint", "FR_FOOT_joint", "HL_FOOT_joint", "HR_FOOT_joint", "tip_joint"],
             useFixedBase=robotinfo.fixed_base
         )
 
