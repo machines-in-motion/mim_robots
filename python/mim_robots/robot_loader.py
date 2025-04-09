@@ -74,6 +74,10 @@ def load_bullet_wrapper(robot_name, locked_joints = None):
             from mim_robots.robots.solo12.pinbullet.solo12wrapper import Solo12Robot
             robot = Solo12Robot(MiM_Robots["solo12"], locked_joints)
             return robot
+        elif(robot_name == 'go2'):
+            from mim_robots.robots.go2.pinbullet.go2wrapper import Go2Robot
+            robot = Go2Robot(MiM_Robots["go2"], locked_joints)
+            return robot
         else:
             assert False
     except:

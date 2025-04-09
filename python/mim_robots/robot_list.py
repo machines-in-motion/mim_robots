@@ -98,6 +98,15 @@ MiM_Robots = {
                     resources_path + "solo12/xml/solo12.xml", \
                     resources_path + "solo12/dgm_parameters_solo12_nyu.yaml", \
                     False),
+    "go2" : RobotInfo(
+                    "go2",
+                    18,
+                    "12 Degree of freedom quadruped robot", \
+                    resources_path + "go2/urdf/go2_with_arm.urdf", \
+                    resources_path + "go2", \
+                    resources_path + "go2/xml/go2_with_arm.xml", \
+                    resources_path + "go2/go2.yaml", \
+                    False),
 }
 
 

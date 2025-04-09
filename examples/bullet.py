@@ -6,9 +6,9 @@ from mim_robots.robot_list import MiM_Robots
 
 env = BulletEnvWithGround(p.GUI)
 
-# # TEST single robot load
-# robot = load_bullet_wrapper("solo12")
-# env.add_robot(robot)
+# TEST single robot load
+robot = load_bullet_wrapper("go2")
+env.add_robot(robot)
 
 
 # # TEST ALL ROBOTS
