@@ -238,6 +238,10 @@ class PinBulletWrapper(object):
             (:obj:`list` of np.array(6)): List of force wrench at each end effector
         """
         contact_status = np.zeros(len(self.pinocchio_endeff_ids))
+        contact_status_dict = {}
+        for i in range(len(self.pinocchio_endeff_ids)):
+            contact_status_dict[self.pinocchio_endeff_ids[i]] = False
+
         contact_forces = np.zeros([len(self.pinocchio_endeff_ids), 6])
         # Get the contact model using the pybullet.getContactPoints() api.
         cp = pybullet.getContactPoints(self.robot_id)
@@ -257,6 +261,7 @@ class PinBulletWrapper(object):
                 continue 
             # Contact active
             contact_status[i] = 1
+            contact_status_dict[self.pinocchio_endeff_ids[i]] = True
             contact_forces[i, :3] += (
                 normal_force * np.array(contact_normal)
                 - lateral_friction_force_1 * np.array(lateral_friction_direction_1)
@@ -266,8 +271,9 @@ class PinBulletWrapper(object):
             # we need the below if statement
             if np.linalg.norm(contact_forces[i, :3]) < 1.0e-12:
                 contact_status[i] = 0
+                contact_status_dict[self.pinocchio_endeff_ids[i]] = False
                 contact_forces[i, :3].fill(0.0)
-        return contact_status, contact_forces
+        return contact_status_dict, contact_forces
 
     def get_base_velocity_world(self):
         """Returns the velocity of the base in the world frame.
