@@ -101,7 +101,7 @@ MiM_Robots = {
     "go2" : RobotInfo(
                     "go2",
                     18,
-                    "12 Degree of freedom quadruped robot", \
+                    "18 Degree of freedom quadruped robot with arm", \
                     resources_path + "go2/urdf/go2_with_arm.urdf", \
                     resources_path + "go2", \
                     resources_path + "go2/xml/go2_with_arm.xml", \

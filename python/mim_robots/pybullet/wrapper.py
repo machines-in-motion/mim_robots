@@ -81,7 +81,6 @@ class PinBulletWrapper(object):
             bullet_joint_map[
                 pybullet.getJointInfo(robot_id, ji)[1].decode("UTF-8")
             ] = ji
-
         self.bullet_joint_ids = np.array(
             [bullet_joint_map[name] for name in joint_names]
         )
@@ -101,7 +100,6 @@ class PinBulletWrapper(object):
                 self.pin2bullet_joint_only_array.append(
                     np.where(self.pinocchio_joint_ids == i)[0][0]
                 )
-
         # Disable the velocity control on the joints as we use torque control.
         pybullet.setJointMotorControlArray(
             robot_id,
@@ -109,7 +107,6 @@ class PinBulletWrapper(object):
             pybullet.VELOCITY_CONTROL,
             forces=np.zeros(self.nj),
         )
-
         # In pybullet, the contact wrench is measured at a joint. In our case
         # the joint is fixed joint. Pinocchio doesn't add fixed joints into the joint
         # list. Therefore, the computation is done wrt to the frame of the fixed joint.

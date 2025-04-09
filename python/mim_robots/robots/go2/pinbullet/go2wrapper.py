@@ -22,7 +22,7 @@ class Go2Robot(PinBulletWrapper):
         self,
         robotinfo, 
         locked_joints_names=None, 
-        qref=np.zeros(19),
+        qref=np.zeros(25),
         pos=None,
         orn=None,
         init_sliders_pose=4
@@ -90,13 +90,18 @@ class Go2Robot(PinBulletWrapper):
         # List actuated joints
         actuated_joints_names = []
         for leg in ["FL", "FR", "HL", "HR"]:
-            actuated_joints_names += [leg + "_HAA", leg + "_HFE", leg + "_KFE"]
+            actuated_joints_names += [leg + "_HAA_joint", leg + "_HFE_joint", leg + "_KFE_joint"]
+        actuated_joints_names += ["Joint1", "Joint2", "Joint3", "Joint4", "Joint5", "Joint6"]
+        print("Actuated joint names = \n", actuated_joints_names)
+        print("SIZE ACTUATION = \n", len(actuated_joints_names))
         # Optionally reduce the model
         if(locked_joints_names is not None):
             self.pin_robot, controlled_joints_names = self.freeze_joints(locked_joints_names, robot_full, qref, actuated_joints_names)
         else:
             controlled_joints_names = actuated_joints_names
             self.pin_robot = robot_full
+        print("controlled_joints_names = \n", controlled_joints_names)
+        print("SIZE ACTUATION = \n", len(controlled_joints_names))
 
         self.base_link_name = "base_link"
         self.end_eff_ids = []
@@ -114,20 +119,23 @@ class Go2Robot(PinBulletWrapper):
         self.hr_index = self.pin_robot.model.getFrameId("HR_FOOT")
         self.fl_index = self.pin_robot.model.getFrameId("FL_FOOT")
         self.fr_index = self.pin_robot.model.getFrameId("FR_FOOT")
+        self.ee_index = self.pin_robot.model.getFrameId("Link6")
 
+        print("init 0")
         # Creates the wrapper by calling the super.__init__.
         super(Go2Robot, self).__init__(
             self.robotId,
             self.pin_robot,
             controlled_joints_names,
-            ["FL_FOOT", "FR_FOOT", "HL_FOOT", "HR_FOOT"],
+            ["FL_FOOT_joint", "FR_FOOT_joint", "HL_FOOT_joint", "HR_FOOT_joint", "Joint6"],
             useFixedBase=robotinfo.fixed_base
         )
+        print("init 1")
 
     def forward_robot(self, q=None, dq=None):
-        if not q:
+        if q is None:
             q, dq = self.get_state()
-        elif not dq:
+        elif dq is None:
             raise ValueError("Need to provide q and dq or non of them.")
 
         self.pin_robot.forwardKinematics(q, dq)
@@ -194,6 +202,7 @@ class Go2RobotWithoutPybullet():
         self.hr_index = self.pin_robot.model.getFrameId("HR_FOOT")
         self.fl_index = self.pin_robot.model.getFrameId("FL_FOOT")
         self.fr_index = self.pin_robot.model.getFrameId("FR_FOOT")
+        self.ee_index = self.pin_robot.model.getFrameId("Link6")
 
     def forward_robot(self, q=None, dq=None):
         if q is None:
