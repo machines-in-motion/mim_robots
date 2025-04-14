@@ -102,7 +102,7 @@ MiM_Robots = {
                     "panda",
                     7,
                     "Franka Emika Panda robot - 7 DoF with the collision model convex and ft sensor + plastic shell at the tip. Can be used to avoid collisions.",
-                    resources_path + "panda/urdf/model.urdf",
+                    resources_path + "panda/urdf/panda.urdf",
                     resources_path + "panda",
                     resources_path + "panda/xml/panda.xml",
                     None,
