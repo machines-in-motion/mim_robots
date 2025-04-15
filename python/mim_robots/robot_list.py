@@ -98,6 +98,16 @@ MiM_Robots = {
                     resources_path + "solo12/xml/solo12.xml", \
                     resources_path + "solo12/dgm_parameters_solo12_nyu.yaml", \
                     False),
+    "panda": RobotInfo(
+                    "panda",
+                    9,
+                    "Franka Emika Panda robot - 7 DoF with 2 joints for a gripper.",
+                    resources_path + "panda/urdf/panda.urdf",
+                    resources_path + "panda",
+                    resources_path + "panda/xml/panda.xml",
+                    None,
+                    True,
+                    ),
 }
 
 
