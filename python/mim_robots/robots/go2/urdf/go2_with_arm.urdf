@@ -95,7 +95,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="base_link"/>
     <child link="FL_HAA"/>
     <axis xyz="1 0 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="23.7" lower="-1.0472" upper="1.0472" velocity="30.1"/>
   </joint>
   <link name="FL_HFE">
@@ -125,7 +125,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="FL_HAA"/>
     <child link="FL_HFE"/>
     <axis xyz="0 1 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="23.7" lower="-1.5708" upper="3.4907" velocity="30.1"/>
   </joint>
   <link name="FL_KFE">
@@ -155,7 +155,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="FL_HFE"/>
     <child link="FL_KFE"/>
     <axis xyz="0 1 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="45.43" lower="-2.7227" upper="-0.83776" velocity="15.70"/>
   </joint>
   <link name="FL_KFElower">
@@ -165,6 +165,11 @@ Stephen Brawner (brawner@gmail.com)
         <cylinder length="0.065" radius="0.011"/>
       </geometry>
     </collision>
+    <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <mass value="0.001"/>
+        <inertia ixx="1e-09" iyy="1e-09" izz="1e-09" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
   </link>
   <joint name="FL_KFElower_joint" type="fixed">
     <origin rpy="0 0.05 0" xyz="0.020 0 -0.148"/>
@@ -179,6 +184,11 @@ Stephen Brawner (brawner@gmail.com)
         <cylinder length="0.03" radius="0.0155"/>
       </geometry>
     </collision>
+      <inertial>
+         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+         <mass value="0.04"/>
+         <inertia ixx="9.6e-06" iyy="9.6e-06" izz="9.6e-06" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
   </link>
   <joint name="FL_KFElower1_joint" type="fixed">
     <origin rpy="0 0.48 0" xyz="-0.01 0 -0.04"/>
@@ -241,7 +251,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="base_link"/>
     <child link="FR_HAA"/>
     <axis xyz="1 0 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="23.7" lower="-1.0472" upper="1.0472" velocity="30.1"/>
   </joint>
   <link name="FR_HFE">
@@ -271,7 +281,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="FR_HAA"/>
     <child link="FR_HFE"/>
     <axis xyz="0 1 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="23.7" lower="-1.5708" upper="3.4907" velocity="30.1"/>
   </joint>
   <link name="FR_KFE">
@@ -301,7 +311,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="FR_HFE"/>
     <child link="FR_KFE"/>
     <axis xyz="0 1 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="45.43" lower="-2.7227" upper="-0.83776" velocity="15.70"/>
   </joint>
   <link name="FR_KFElower">
@@ -311,6 +321,11 @@ Stephen Brawner (brawner@gmail.com)
         <cylinder length="0.065" radius="0.011"/>
       </geometry>
     </collision>
+    <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <mass value="0.001"/>
+        <inertia ixx="1e-09" iyy="1e-09" izz="1e-09" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
   </link>
   <joint name="FR_KFElower_joint" type="fixed">
     <origin rpy="0 0.05 0" xyz="0.020 0 -0.148"/>
@@ -325,6 +340,11 @@ Stephen Brawner (brawner@gmail.com)
         <cylinder length="0.03" radius="0.0155"/>
       </geometry>
     </collision>
+      <inertial>
+         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+         <mass value="0.04"/>
+         <inertia ixx="9.6e-06" iyy="9.6e-06" izz="9.6e-06" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
   </link>
   <joint name="FR_KFElower1_joint" type="fixed">
     <origin rpy="0 0.48 0" xyz="-0.01 0 -0.04"/>
@@ -387,7 +407,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="base_link"/>
     <child link="HL_HAA"/>
     <axis xyz="1 0 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="23.7" lower="-1.0472" upper="1.0472" velocity="30.1"/>
   </joint>
   <link name="HL_HFE">
@@ -417,7 +437,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="HL_HAA"/>
     <child link="HL_HFE"/>
     <axis xyz="0 1 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="23.7" lower="-0.5236" upper="4.5379" velocity="30.1"/>
   </joint>
   <link name="HL_KFE">
@@ -447,7 +467,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="HL_HFE"/>
     <child link="HL_KFE"/>
     <axis xyz="0 1 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="45.43" lower="-2.7227" upper="-0.83776" velocity="15.70"/>
   </joint>
   <link name="HL_KFElower">
@@ -457,6 +477,11 @@ Stephen Brawner (brawner@gmail.com)
         <cylinder length="0.065" radius="0.011"/>
       </geometry>
     </collision>
+    <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <mass value="0.001"/>
+        <inertia ixx="1e-09" iyy="1e-09" izz="1e-09" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
   </link>
   <joint name="HL_KFElower_joint" type="fixed">
     <origin rpy="0 0.05 0" xyz="0.020 0 -0.148"/>
@@ -471,6 +496,11 @@ Stephen Brawner (brawner@gmail.com)
         <cylinder length="0.03" radius="0.0155"/>
       </geometry>
     </collision>
+      <inertial>
+         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+         <mass value="0.04"/>
+         <inertia ixx="9.6e-06" iyy="9.6e-06" izz="9.6e-06" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
   </link>
   <joint name="HL_KFElower1_joint" type="fixed">
     <origin rpy="0 0.48 0" xyz="-0.01 0 -0.04"/>
@@ -533,7 +563,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="base_link"/>
     <child link="HR_HAA"/>
     <axis xyz="1 0 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="23.7" lower="-1.0472" upper="1.0472" velocity="30.1"/>
   </joint>
   <link name="HR_HFE">
@@ -563,7 +593,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="HR_HAA"/>
     <child link="HR_HFE"/>
     <axis xyz="0 1 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="23.7" lower="-0.5236" upper="4.5379" velocity="30.1"/>
   </joint>
   <link name="HR_KFE">
@@ -593,7 +623,7 @@ Stephen Brawner (brawner@gmail.com)
     <parent link="HR_HFE"/>
     <child link="HR_KFE"/>
     <axis xyz="0 1 0"/>
-    <dynamics damping="0" friction="0"/>
+    <dynamics damping="0.0" friction="0.2"/>
     <limit effort="45.43" lower="-2.7227" upper="-0.83776" velocity="15.70"/>
   </joint>
   <link name="HR_KFElower">
@@ -603,6 +633,11 @@ Stephen Brawner (brawner@gmail.com)
         <cylinder length="0.065" radius="0.011"/>
       </geometry>
     </collision>
+    <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <mass value="0.001"/>
+        <inertia ixx="1e-09" iyy="1e-09" izz="1e-09" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
   </link>
   <joint name="HR_KFElower_joint" type="fixed">
     <origin rpy="0 0.05 0" xyz="0.020 0 -0.148"/>
@@ -617,6 +652,11 @@ Stephen Brawner (brawner@gmail.com)
         <cylinder length="0.03" radius="0.0155"/>
       </geometry>
     </collision>
+      <inertial>
+         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+         <mass value="0.04"/>
+         <inertia ixx="9.6e-06" iyy="9.6e-06" izz="9.6e-06" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
   </link>
   <joint name="HR_KFElower1_joint" type="fixed">
     <origin rpy="0 0.48 0" xyz="-0.01 0 -0.04"/>
@@ -764,8 +804,9 @@ Stephen Brawner (brawner@gmail.com)
     <limit
       lower="-2.35"
       upper="2.35"
-      effort="0"
-      velocity="0" />
+      effort="100"
+      velocity="100" />
+    <dynamics damping="0.0" friction="0.2"/>
   </joint>
   <link
     name="Link2">
@@ -813,8 +854,9 @@ Stephen Brawner (brawner@gmail.com)
     <limit
       lower="-1.57"
       upper="1.57"
-      effort="0"
-      velocity="0" />
+      effort="100"
+      velocity="100" />
+    <dynamics damping="0.0" friction="0.2"/>
   </joint>
   <link
     name="Link3">
@@ -862,8 +904,9 @@ Stephen Brawner (brawner@gmail.com)
     <limit
       lower="-1.57"
       upper="1.57"
-      effort="0"
-      velocity="0" />
+      effort="100"
+      velocity="100" />
+    <dynamics damping="0.0" friction="0.2"/>
   </joint>
   <link
     name="Link4">
@@ -911,8 +954,9 @@ Stephen Brawner (brawner@gmail.com)
     <limit
       lower="-2.35"
       upper="2.35"
-      effort="0"
-      velocity="0" />
+      effort="100"
+      velocity="100" />
+    <dynamics damping="0.0" friction="0.2"/>
   </joint>
   <link
     name="Link5">
@@ -960,8 +1004,9 @@ Stephen Brawner (brawner@gmail.com)
     <limit
       lower="-1.57"
       upper="1.57"
-      effort="0"
-      velocity="0" />
+      effort="100"
+      velocity="100" />
+    <dynamics damping="0.0" friction="0.2"/>
   </joint>
   <link
     name="Link6">
@@ -994,7 +1039,6 @@ Stephen Brawner (brawner@gmail.com)
       </material>
     </visual>
   </link>
-
   <joint
     name="Joint6"
     type="revolute">
@@ -1010,12 +1054,27 @@ Stephen Brawner (brawner@gmail.com)
     <limit
       lower="-2.35"
       upper="2.35"
-      effort="0"
-      velocity="0" />
+      effort="100"
+      velocity="100" />
+    <dynamics damping="0.0" friction="0.2"/>
   </joint>
 
   <link
     name="ef_tip">
+    <inertial>
+      <origin
+        xyz="0.0 0 0.0406"
+        rpy="0 0 0" />
+      <mass
+        value="0.04" />
+      <inertia
+        ixx="9.6e-06"
+        ixy="0"
+        ixz="0"
+        iyy="9.6e-06"
+        iyz="0"
+        izz="9.6e-06" />
+    </inertial>
   </link>
   <joint
     name="tip_joint"

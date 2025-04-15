@@ -78,29 +78,44 @@ class PinBulletWrapper(object):
 
         bullet_joint_map = {}
         for ji in range(pybullet.getNumJoints(robot_id)):
-            bullet_joint_map[
-                pybullet.getJointInfo(robot_id, ji)[1].decode("UTF-8")
-            ] = ji
-            # print(pybullet.getJointInfo(robot_id, ji))
-        self.bullet_joint_ids = np.array(
-            [bullet_joint_map[name] for name in joint_names]
-        )
-        self.pinocchio_joint_ids = np.array(
-            [pinocchio_robot.model.getJointId(name) for name in joint_names]
-        )
+            joint_info = pybullet.getJointInfo(robot_id, ji)
+            joint_name = joint_info[1].decode("utf-8")
+            bullet_joint_map[joint_name] = ji
+            print(f"[Bullet] Joint {ji}: name = {joint_name}")
 
+
+        # Step 2: Build mappings for actuated joints (from joint_names list)
+        self.bullet_joint_ids = []
+        self.pinocchio_joint_ids = []
+
+        print("\n[Mapping Pinocchio ↔ Bullet]")
+        for name in joint_names:
+            if name not in bullet_joint_map:
+                print(f"⚠️ Joint '{name}' not found in Bullet!")
+            if pinocchio_robot.model.getJointId(name) == 0:
+                print(f"⚠️ Joint '{name}' not found in Pinocchio!")
+
+            bullet_id = bullet_joint_map[name]
+            pin_id = pinocchio_robot.model.getJointId(name)
+
+            self.bullet_joint_ids.append(bullet_id)
+            self.pinocchio_joint_ids.append(pin_id)
+
+            print(f"✔️ {name}: Pinocchio ID = {pin_id}, Bullet ID = {bullet_id}")
+
+        self.bullet_joint_ids = np.array(self.bullet_joint_ids)
+        self.pinocchio_joint_ids = np.array(self.pinocchio_joint_ids)
+
+        # Step 3: Mapping index in pinocchio_joint_ids to match Bullet array (used to index into tau)
         self.pin2bullet_joint_only_array = []
 
-        if not self.useFixedBase:
-            for i in range(2, self.nj + 2):
-                self.pin2bullet_joint_only_array.append(
-                    np.where(self.pinocchio_joint_ids == i)[0][0]
-                )
-        else:
-            for i in range(1, self.nj + 1):
-                self.pin2bullet_joint_only_array.append(
-                    np.where(self.pinocchio_joint_ids == i)[0][0]
-                )
+        # Pinocchio joint ID → index into the torque vector (which is ordered according to joint_names)
+        for idx_in_pinocchio_array, pin_joint_id in enumerate(self.pinocchio_joint_ids):
+            self.pin2bullet_joint_only_array.append(idx_in_pinocchio_array)
+            print(f"[Mapping] Pinocchio joint ID {pin_joint_id} ↔ Bullet ID {self.bullet_joint_ids[idx_in_pinocchio_array]}")
+
+        self.pin2bullet_joint_only_array = np.array(self.pin2bullet_joint_only_array)
+
         # Disable the velocity control on the joints as we use torque control.
         pybullet.setJointMotorControlArray(
             robot_id,
@@ -108,6 +123,8 @@ class PinBulletWrapper(object):
             pybullet.VELOCITY_CONTROL,
             forces=np.zeros(self.nj),
         )
+
+        # print("pin2bullet_joint_only_array = ", self.pin2bullet_joint_only_array)
         # In pybullet, the contact wrench is measured at a joint. In our case
         # the joint is fixed joint. Pinocchio doesn't add fixed joints into the joint
         # list. Therefore, the computation is done wrt to the frame of the fixed joint.
@@ -493,6 +510,10 @@ class PinBulletWrapper(object):
             tau (ndarray): Torque to be applied.
         """
         # TODO: Apply the torques on the base towards the simulator as well.
+        # print("USE FIXED BASE = ", self.useFixedBase)
+        # print("tau.shape = ", tau.shape[0])
+        # print("self.nv = ", self.nv)
+        # print("self.nv -6 = ", self.nv -6)
         if not self.useFixedBase:
             assert tau.shape[0] == self.nv - 6
         else:
@@ -507,8 +528,8 @@ class PinBulletWrapper(object):
             forces=tau[self.pin2bullet_joint_only_array],
             positionGains=zeroGains,
             velocityGains=zeroGains,
-        )
 
+        )
     def step_simulation(self):
         """Step the simulation forward."""
         pybullet.stepSimulation()

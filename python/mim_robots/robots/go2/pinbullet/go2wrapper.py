@@ -32,10 +32,8 @@ class Go2Robot(PinBulletWrapper):
     ):
 
         self.initial_configuration = (
-                    [0.2, 0.0, 0.25, 0.0, 0.0, 0.0, 1.0]
-                    + 2 * [0.0, 0.8, -1.6]
-                    + 2 * [0.0, -0.8, 1.6]
-                    + 6*[0]
+                    [-0.1, 0.0, 0.32, 0.0, 0.0, 0.0, 1.0]
+                    +4*[0.0, 0.77832842, -1.56065452] + [0.0, 0.3, -0.3, 0.0, 0.0, 0.0]
                     )
 
         self.initial_velocity = (8 + 4 + 6 + 6) * [
@@ -63,15 +61,16 @@ class Go2Robot(PinBulletWrapper):
         # Query all the joints.
         num_joints = pybullet.getNumJoints(self.robotId)
 
-        for ji in range(num_joints):
-            pybullet.changeDynamics(
-                self.robotId,
-                ji,
-                linearDamping=0.04,
-                angularDamping=0.04,
-                restitution=0.0,
-                lateralFriction=0.5,
-            )
+        # for ji in range(num_joints):
+        #     pybullet.changeDynamics(
+        #         self.robotId,
+        #         ji,
+        #         linearDamping=0.04,
+        #         angularDamping=0.04,
+        #         restitution=0.0,
+        #         lateralFriction=0.5,
+        #     )
+
 
 
         self.slider_a = pybullet.addUserDebugParameter(
@@ -93,6 +92,13 @@ class Go2Robot(PinBulletWrapper):
             actuated_joints_names += [leg + "_HAA_joint", leg + "_HFE_joint", leg + "_KFE_joint"]
         actuated_joints_names += ["Joint1", "Joint2", "Joint3", "Joint4", "Joint5", "Joint6"]
 
+        # # List actuated joints
+        # actuated_joints_names = []
+        # for leg in ["FL", "FR", "RL", "RR"]:
+        #     actuated_joints_names += [leg + "_hip_joint", leg + "_thigh_joint", leg + "_calf_joint"]
+        # actuated_joints_names += ["Joint1", "Joint2", "Joint3", "Joint4", "Joint5", "Joint6"]
+
+
         # Optionally reduce the model
         if(locked_joints_names is not None):
             self.pin_robot, controlled_joints_names = self.freeze_joints(locked_joints_names, robot_full, qref, actuated_joints_names)
@@ -108,15 +114,17 @@ class Go2Robot(PinBulletWrapper):
         for leg in ["FL", "FR", "HL", "HR"]:
             self.end_eff_ids.append(self.pin_robot.model.getFrameId(leg + "_FOOT"))
             self.end_effector_names.append(leg + "_FOOT")
-
+        # self.end_effector_names = ["FL_calf2FL_dummy_fixed", "FR_calf2FR_dummy_fixed", "RL_calf2RL_dummy_fixed", "RR_calf2RR_dummy_fixed", "Link62EF_dummy_fixed"]
+        # self.end_eff_ids = [self.pin_robot.model.getFrameId(fname) for fname in self.end_effector_names]
+        
         self.joint_names = controlled_joints_names
         self.nb_ee = len(self.end_effector_names)
 
-        self.hl_index = self.pin_robot.model.getFrameId("HL_FOOT")
-        self.hr_index = self.pin_robot.model.getFrameId("HR_FOOT")
-        self.fl_index = self.pin_robot.model.getFrameId("FL_FOOT")
-        self.fr_index = self.pin_robot.model.getFrameId("FR_FOOT")
-        self.ee_index = self.pin_robot.model.getFrameId("Link6")
+        # self.hl_index = self.pin_robot.model.getFrameId("HL_FOOT")
+        # self.hr_index = self.pin_robot.model.getFrameId("HR_FOOT")
+        # self.fl_index = self.pin_robot.model.getFrameId("FL_FOOT")
+        # self.fr_index = self.pin_robot.model.getFrameId("FR_FOOT")
+        # self.ee_index = self.pin_robot.model.getFrameId("Link6")
 
         # Creates the wrapper by calling the super.__init__.
         super(Go2Robot, self).__init__(
@@ -124,6 +132,7 @@ class Go2Robot(PinBulletWrapper):
             self.pin_robot,
             controlled_joints_names,
             ["FL_FOOT_joint", "FR_FOOT_joint", "HL_FOOT_joint", "HR_FOOT_joint", "tip_joint"],
+            # ["FL_calf2FL_dummy_fixed", "FR_calf2FR_dummy_fixed", "RL_calf2RL_dummy_fixed", "RR_calf2RR_dummy_fixed", "Link62EF_dummy_fixed"],
             useFixedBase=robotinfo.fixed_base
         )
 

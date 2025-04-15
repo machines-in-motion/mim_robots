@@ -103,11 +103,9 @@ MiM_Robots = {
                     18,
                     "18 Degree of freedom quadruped robot with arm", \
                     resources_path + "go2/urdf/go2_with_arm.urdf", \
+                    # resources_path + "go2/xml/go2_with_arm_no_ef_CONVERTED.urdf", \
                     resources_path + "go2", \
                     resources_path + "go2/xml/go2_with_arm.xml", \
                     resources_path + "go2/go2.yaml", \
                     False),
 }
-
-
-
