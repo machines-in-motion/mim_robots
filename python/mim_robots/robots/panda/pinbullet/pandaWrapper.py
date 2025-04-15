@@ -21,7 +21,7 @@ class PandaRobot(PinBulletWrapper):
     """
 
     def __init__(
-        self, robotinfo, locked_joints_names=None, qref=np.zeros(7), pos=None, orn=None
+        self, robotinfo, locked_joints_names=None, qref=np.zeros(9), pos=None, orn=None
     ):
         # Load the robot
         if pos is None:
@@ -57,8 +57,16 @@ class PandaRobot(PinBulletWrapper):
             )
         else:
             self.pin_robot = robot_full
-            controlled_joints_names = ["panda_joint1", "panda_joint2", "panda_joint3", 
-            "panda_joint4", "panda_joint5", "panda_joint6", "panda_joint7"]
+            controlled_joints_names = [
+                "panda_joint1",
+                "panda_joint2",
+                "panda_joint3", 
+                "panda_joint4", 
+                "panda_joint5", 
+                "panda_joint6", 
+                "panda_joint7", 
+                "panda_finger_joint1", 
+                "panda_finger_joint2"]
 
         self.base_link_name = "panda_link0"
         self.end_eff_ids = []
