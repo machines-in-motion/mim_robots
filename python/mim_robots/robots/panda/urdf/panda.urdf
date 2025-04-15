@@ -381,7 +381,7 @@
         </contact>
     </link>
 
-    <joint name="panda_contact_joint2" type="fixed">
+    <joint name="panda_contact_joint" type="fixed">
         <parent link="panda_hand"/>
         <child link="contact"/>
         <origin rpy="0 0 0" xyz="0 0 0.0584"/>

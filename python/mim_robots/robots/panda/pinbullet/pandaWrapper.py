@@ -31,27 +31,25 @@ class PandaRobot(PinBulletWrapper):
         self.urdf_path = robotinfo.urdf_path
         self.robotId = pybullet.loadURDF(
             self.urdf_path,
-            pos,
-            orn,
+            pos, orn,
             flags=pybullet.URDF_USE_INERTIA_FROM_FILE,
-            useFixedBase=robotinfo.fixed_base,
-        )
+            useFixedBase=robotinfo.fixed_base)
         pybullet.getBasePositionAndOrientation(self.robotId)
 
         # Create the robot wrapper in pinocchio.
         robot_full = load_pinocchio_wrapper(robotinfo.name)
+
         # Query all the joints.
         num_joints = pybullet.getNumJoints(self.robotId)
 
         for ji in range(num_joints):
-            pybullet.changeDynamics(
-                self.robotId,
-                ji,
-                linearDamping=0.04,
-                angularDamping=0.04,
-                restitution=0.0,
-                lateralFriction=0.5,
-            )
+            pybullet.changeDynamics(self.robotId, 
+                                    ji, 
+                                    linearDamping=.04,
+                                    angularDamping=0.04, 
+                                    restitution=0.0, 
+                                    lateralFriction=0.5)
+            
         # Optionally reduce the model
         if locked_joints_names is not None:
             self.pin_robot, controlled_joints_names = self.freeze_joints(
@@ -62,19 +60,21 @@ class PandaRobot(PinBulletWrapper):
             controlled_joints_names = ["panda_joint1", "panda_joint2", "panda_joint3", 
             "panda_joint4", "panda_joint5", "panda_joint6", "panda_joint7"]
 
-        self.base_link_name = "root_joint"
+        self.base_link_name = "panda_link0"
         self.end_eff_ids = []
-        self.end_eff_ids.append(self.pin_robot.model.getFrameId("panda_hand_ball_joint"))
+        self.end_eff_ids.append(self.pin_robot.model.getFrameId("contact"))
         self.nb_ee = len(self.end_eff_ids)
         self.joint_names = controlled_joints_names
         # Creates the wrapper by calling the super.__init__.
-        super(PandaRobot, self).__init__(
-            self.robotId,
-            self.pin_robot,
-            controlled_joints_names,
-            ["panda_hand_ball_joint"],
-            useFixedBase=robotinfo.fixed_base,
-        )
+        try:
+            super(PandaRobot, self).__init__(
+                self.robotId,
+                self.pin_robot,
+                controlled_joints_names,
+                ["panda_contact_joint"],
+                useFixedBase=robotinfo.fixed_base)
+        except Exception as e:
+            print(e, type(e))
         self.nb_dof = self.nv
 
     def forward_robot(self, q=None, dq=None):
