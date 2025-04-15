@@ -33,6 +33,8 @@ env.add_robot(robot)
 robot = load_bullet_wrapper("solo12", locked_joints = ["FL_HAA"])
 print(robot.pin_robot.model)
 env.add_robot(robot)
+robot = load_bullet_wrapper("panda", locked_joints = ["panda_finger_joint1", "panda_finger_joint2"])
+env.add_robot(robot)
 
 
 for i in range(100000):

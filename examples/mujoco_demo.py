@@ -8,6 +8,7 @@ print(get_robot_list())
 model = load_mujoco_model("solo12")
 # model = load_mujoco_model("iiwa")
 # model = load_mujoco_model("iiwa_ft_sensor_ball")
+# model = load_mujoco_model("panda")
 data = mujoco.MjData(model)
 
 
